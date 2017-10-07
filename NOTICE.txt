@@ -1,0 +1,15 @@
+**********************
+THIRD PARTY COMPONENTS
+**********************
+
+===Apache 2.0 - License====
+commons-*   http://commons.apache.org/
+jackson-*   http://fasterxml.com
+org.json-*  http://www.JSON.org/
+ 
+===Eclipse Public License====
+junit-*  http://junit.org/
+
+=== Apache 2.0 JodaTime ===
+org.joda.* http://www.joda.org/joda-time/
+
