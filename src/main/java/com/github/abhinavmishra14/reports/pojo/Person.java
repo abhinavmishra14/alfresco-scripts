@@ -18,6 +18,7 @@
 
 package com.github.abhinavmishra14.reports.pojo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +64,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "sizeCurrent",
     "emailFeedDisabled",
     "persondescription",
-    "groups"
+    "groups",
+    "siteInfo"
 })
 public class Person {
 
@@ -186,6 +188,9 @@ public class Person {
     /** The groups. */
     @JsonProperty("groups")
     private List<Group> groups = null;
+    
+    @JsonProperty("siteInfo")
+    private List<SiteInfo> siteInfo = null;
     
     /** The additional properties. */
     @JsonIgnore
@@ -792,6 +797,30 @@ public class Person {
     }
 
     /**
+     * Gets the site info.
+     *
+     * @return the site info
+     */
+    @JsonProperty("siteInfo")
+    public List<SiteInfo> getSiteInfo() {
+		return siteInfo;
+	}
+
+	/**
+	 * Sets the site info.
+	 *
+	 * @param siteInfo the site info
+	 */
+    @JsonProperty("siteInfo")
+	public void setSiteInfo(List<SiteInfo> siteInfo) {
+    	if (siteInfo == null) {
+    		this.siteInfo = new ArrayList<SiteInfo>();
+    	} else {
+		  this.siteInfo = siteInfo;
+    	}
+	}
+
+	/**
      * Gets the additional properties.
      *
      * @return the additional properties

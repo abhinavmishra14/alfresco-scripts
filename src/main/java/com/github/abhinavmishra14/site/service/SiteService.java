@@ -25,7 +25,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.abhinavmishra14.reports.exception.UserReportException;
+import com.github.abhinavmishra14.exception.AlfScriptException;
 
 /**
  * The Interface SiteService.
@@ -40,12 +40,11 @@ public interface SiteService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 */
 	void deleteSite(final String shortName, final String authTicket)
 			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, UserReportException, IOException;
+			ClientProtocolException, IOException;
 	
 	/**
 	 * Gets the site short name list.
@@ -54,13 +53,13 @@ public interface SiteService {
 	 * @return the site short name list
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
+	 * @throws AlfScriptException the alf script exception
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
 	List<String> getSiteShortNameList(final String authTicket)
 			throws JsonProcessingException, ClientProtocolException,
-			UserReportException, URISyntaxException, IOException;
+			AlfScriptException, URISyntaxException, IOException;
 	
 	/**
 	 * Gets the all sites.
@@ -70,10 +69,59 @@ public interface SiteService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
+	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	JSONArray getAllSites(final String authTicket)
 			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, UserReportException, IOException;
+			ClientProtocolException, AlfScriptException, IOException;
+	
+	/**
+	 * Gets the all sites.
+	 *
+	 * @param authTicket the auth ticket
+	 * @param userName the user name
+	 * @return the all sites
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	JSONArray getAllSites(final String authTicket, final String userName)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException;
+	
+	
+	/**
+	 * Gets the all sites as string.
+	 *
+	 * @param authTicket the auth ticket
+	 * @return the all sites as string
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	String getAllSitesAsString(final String authTicket)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException;
+	
+	
+	/**
+	 * Gets the all sites as string.
+	 *
+	 * @param authTicket the auth ticket
+	 * @param userName the user name
+	 * @return the all sites as string
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	String getAllSitesAsString(final String authTicket, final String userName)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException;
 }

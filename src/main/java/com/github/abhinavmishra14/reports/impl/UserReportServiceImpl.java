@@ -39,6 +39,8 @@ import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.reports.pojo.Person;
 import com.github.abhinavmishra14.reports.pojo.Users;
 import com.github.abhinavmishra14.reports.service.UserReportService;
+import com.github.abhinavmishra14.site.service.SiteService;
+import com.github.abhinavmishra14.site.service.impl.SiteServiceImpl;
 
 /**
  * The Class UserReportServiceImpl.
@@ -78,6 +80,7 @@ public class UserReportServiceImpl implements UserReportService {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	@SuppressWarnings("unchecked")
 	public Person getPerson(final String userName, final String authTicket)
 			throws URISyntaxException, ClientProtocolException, IOException {
 		LOG.info("Getting user profile for user: "+userName);
@@ -96,6 +99,10 @@ public class UserReportServiceImpl implements UserReportService {
 					StandardCharsets.UTF_8);
 			final ObjectMapper mapper = JSONUtils.getJsonObjectMapper();
 			person = mapper.readValue(resonseStr, Person.class);
+			//Set the user's sites which user has access
+			final SiteService siteService = new SiteServiceImpl (serverEndpoint);
+			final String sites = siteService.getAllSitesAsString(authTicket, userName);
+			person.setSiteInfo(mapper.readValue(sites, List.class));
 		} else {
 			throw new UserReportException(statusMsg);
 		}

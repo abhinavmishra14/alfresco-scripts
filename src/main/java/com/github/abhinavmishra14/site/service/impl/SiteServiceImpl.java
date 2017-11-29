@@ -20,10 +20,12 @@ package com.github.abhinavmishra14.site.service.impl;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
@@ -35,8 +37,8 @@ import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
+import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
-import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.site.service.SiteService;
 
 /**
@@ -49,6 +51,9 @@ public class SiteServiceImpl implements SiteService{
 	
 	/** The Constant SITES_URL. */
 	private static final String SITES_URL = "/alfresco/service/api/sites";
+	
+	/** The Constant SITES_BY_PERSON_URL. */
+	private static final String SITES_BY_PERSON_URL = "/alfresco/service/api/people/{0}/sites?roles=user";
 	
 	/** The server endpoint. */
 	private final String serverEndpoint;
@@ -71,12 +76,11 @@ public class SiteServiceImpl implements SiteService{
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 */
 	public void deleteSite(final String shortName, final String authTicket)
 			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, UserReportException, IOException {
+			ClientProtocolException, IOException {
 		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint + SITES_URL + AlfScriptConstants.PATH_SEPERATOR + shortName);
 		uriBuilder.addParameter(AlfScriptConstants.PARAM_AUTH_TICKET, authTicket);
 		final HttpResponse httpResp = HTTPUtils.httpDelete(uriBuilder.toString());
@@ -93,12 +97,12 @@ public class SiteServiceImpl implements SiteService{
 	 * @return the site short name list
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
+	 * @throws AlfScriptException the alf script exception
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
 	public List<String> getSiteShortNameList(final String authTicket) throws JsonProcessingException,
-			ClientProtocolException, UserReportException, URISyntaxException,
+			ClientProtocolException, AlfScriptException, URISyntaxException,
 			IOException {
 		final JSONArray sites = getAllSites(authTicket);
 		final List<String> allSiteShortNames = new ArrayList<String> ();
@@ -119,14 +123,50 @@ public class SiteServiceImpl implements SiteService{
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
+	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	public JSONArray getAllSites(final String authTicket) throws URISyntaxException,
 			JsonProcessingException, ClientProtocolException,
-			UserReportException, IOException {
+			AlfScriptException, IOException {
+		return new JSONArray(getAllSitesAsString(authTicket));
+	}
+
+	/**
+	 * Gets the all sites.
+	 *
+	 * @param authTicket the auth ticket
+	 * @param userName the user name
+	 * @return the all sites
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	@Override
+	public JSONArray getAllSites(final String authTicket, final String userName)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException {
+		return new JSONArray(getAllSitesAsString(authTicket, userName));
+	}
+
+	/**
+	 * Gets the all sites as string.
+	 *
+	 * @param authTicket the auth ticket
+	 * @return the all sites as string
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	@Override
+	public String getAllSitesAsString(final String authTicket)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException {
 		LOG.info("Getting all sites..");
-		JSONArray sites = null;
 		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint + SITES_URL);
 		uriBuilder.addParameter(AlfScriptConstants.PARAM_AUTH_TICKET, authTicket);
 		final HttpResponse httpResp = HTTPUtils.httpGet(uriBuilder.toString());
@@ -134,12 +174,46 @@ public class SiteServiceImpl implements SiteService{
 		final int statusCode = status.getStatusCode();
 		final String statusMsg = status.getReasonPhrase();
 		LOG.info("Status: "+statusCode +" | "+ statusMsg);
+		String sites = StringUtils.EMPTY;
 		if (statusCode == HTTPUtils.HTTP_CODE_200) {
-			final String resonseStr = IOUtils.toString(httpResp.getEntity().getContent(),
-					StandardCharsets.UTF_8);
-			sites = new JSONArray(resonseStr);
+			sites = IOUtils.toString(httpResp.getEntity().getContent(), StandardCharsets.UTF_8);
 		} else {
-			throw new UserReportException(statusMsg);
+			throw new AlfScriptException(statusMsg);
+		}
+		return sites;
+	}
+
+	/**
+	 * Gets the all sites as string.
+	 *
+	 * @param authTicket the auth ticket
+	 * @param userName the user name
+	 * @return the all sites as string
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws JsonProcessingException the json processing exception
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException the IO exception
+	 */
+	@Override
+	public String getAllSitesAsString(final String authTicket, final String userName)
+			throws URISyntaxException, JsonProcessingException,
+			ClientProtocolException, AlfScriptException, IOException {
+		LOG.info("Getting all sites for user: "+userName);
+		final Object[] uriArgs = {userName};
+		final MessageFormat msgFormat = new MessageFormat(SITES_BY_PERSON_URL);
+		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint+msgFormat.format(uriArgs));
+		uriBuilder.addParameter(AlfScriptConstants.PARAM_AUTH_TICKET, authTicket);
+		final HttpResponse httpResp = HTTPUtils.httpGet(uriBuilder.toString());
+		final StatusLine status = httpResp.getStatusLine();
+		final int statusCode = status.getStatusCode();
+		final String statusMsg = status.getReasonPhrase();
+		LOG.info("Status: "+statusCode +" | "+ statusMsg);
+		String sites = StringUtils.EMPTY;
+		if (statusCode == HTTPUtils.HTTP_CODE_200) {
+			sites = IOUtils.toString(httpResp.getEntity().getContent(), StandardCharsets.UTF_8);
+		} else {
+			throw new AlfScriptException(statusMsg);
 		}
 		return sites;
 	}

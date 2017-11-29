@@ -1,0 +1,202 @@
+{
+	"people": [{
+		"url": "/alfresco/service/api/people/guest",
+		"userName": "guest",
+		"nodeRef": "workspace://SpacesStore/890a07b7-7f63-444b-aa77-4f9883a928cc",
+		"enabled": false,
+		"firstName": "Guest",
+		"lastName": "",
+		"organizationId": "",
+		"email": "",
+		"quota": -1,
+		"sizeCurrent": 0,
+		"emailFeedDisabled": false,
+		"groups": [],
+		"siteInfo": [],
+		"capabilities": {
+			"isMutable": false,
+			"isGuest": true,
+			"isAdmin": false
+		},
+		"immutability": {
+			
+		}
+	},
+	{
+		"url": "/alfresco/service/api/people/mjackson",
+		"userName": "mjackson",
+		"nodeRef": "workspace://SpacesStore/b6d80d49-21cc-4f04-9c92-e7063037543f",
+		"enabled": false,
+		"firstName": "Mike",
+		"lastName": "Jackson",
+		"jobtitle": "Web Site Manager",
+		"organization": "Green Energy",
+		"location": "Threepwood, UK",
+		"telephone": "012211331100",
+		"mobile": "012211331100",
+		"email": "mjackson@example.com",
+		"companyaddress1": "100 Cavendish Street",
+		"companyaddress2": "Threepwood",
+		"companyaddress3": "UK",
+		"companypostcode": "ALF1 SAM1",
+		"companytelephone": "",
+		"companyfax": "",
+		"companyemail": "",
+		"skype": "mjackson",
+		"instantmsg": "",
+		"userStatus": "Working on a new web design for the corporate site",
+		"userStatusTime": {
+			"iso8601": "2011-02-15T15:13:09.649-05:00"
+		},
+		"googleusername": "",
+		"quota": -1,
+		"sizeCurrent": 8834773,
+		"emailFeedDisabled": false,
+		"persondescription": "Mike is a demo user for the sample Alfresco Team site.",
+		"groups": [],
+		"siteInfo": [{
+			"url": "/alfresco/service/api/sites/swsdp",
+			"sitePreset": "site-dashboard",
+			"shortName": "swsdp",
+			"title": "Sample: Web Site Design Project",
+			"description": "This is a Sample Alfresco Team site.",
+			"node": "/alfresco/service/api/node/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"tagScope": "/alfresco/service/api/tagscopes/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"siteRole": "SiteManager",
+			"isPublic": true,
+			"visibility": "PUBLIC"
+		}],
+		"capabilities": {
+			"isMutable": true,
+			"isGuest": false,
+			"isAdmin": false
+		},
+		"avatar": "api/node/workspace/SpacesStore/519ebedc-0827-4fba-a8e3-c51e39385e0c/content/thumbnails/avatar",
+		"immutability": {
+			
+		}
+	},
+	{
+		"url": "/alfresco/service/api/people/abeecher",
+		"userName": "abeecher",
+		"nodeRef": "workspace://SpacesStore/dc103838-645f-43c1-8a2a-bc187e13c343",
+		"enabled": false,
+		"firstName": "Alice",
+		"lastName": "Beecher",
+		"jobtitle": "Graphic Designer",
+		"organization": "Moresby, Garland and Wedge",
+		"location": "Tilbury, UK",
+		"telephone": "0112211001100",
+		"mobile": "0112211001100",
+		"email": "abeecher@example.com",
+		"companyaddress1": "200 Butterwick Street",
+		"companyaddress2": "Tilbury",
+		"companyaddress3": "UK",
+		"companypostcode": "ALF1 SAM1",
+		"companytelephone": "",
+		"companyfax": "",
+		"companyemail": "",
+		"skype": "abeecher",
+		"instantmsg": "",
+		"userStatus": "Helping to design the look and feel of the new web site",
+		"userStatusTime": {
+			"iso8601": "2011-02-15T15:20:13.432-05:00"
+		},
+		"googleusername": "",
+		"quota": -1,
+		"sizeCurrent": 8382006,
+		"emailFeedDisabled": false,
+		"persondescription": "Alice is a demo user for the sample Alfresco Team site.",
+		"groups": [],
+		"siteInfo": [{
+			"url": "/alfresco/service/api/sites/swsdp",
+			"sitePreset": "site-dashboard",
+			"shortName": "swsdp",
+			"title": "Sample: Web Site Design Project",
+			"description": "This is a Sample Alfresco Team site.",
+			"node": "/alfresco/service/api/node/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"tagScope": "/alfresco/service/api/tagscopes/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"siteRole": "SiteManager",
+			"isPublic": true,
+			"visibility": "PUBLIC"
+		}],
+		"capabilities": {
+			"isMutable": true,
+			"isGuest": false,
+			"isAdmin": false
+		},
+		"avatar": "api/node/workspace/SpacesStore/d77a6aa1-bac8-42e4-8df8-2faf1a085622/content/thumbnails/avatar",
+		"immutability": {
+			
+		}
+	},
+	{
+		"url": "/alfresco/service/api/people/admin",
+		"userName": "admin",
+		"nodeRef": "workspace://SpacesStore/47c564f9-b87e-4886-b0b9-f52f39aea4cb",
+		"enabled": true,
+		"firstName": "Administrator",
+		"lastName": "",
+		"jobtitle": "",
+		"organization": "",
+		"organizationId": "",
+		"location": "",
+		"telephone": "",
+		"mobile": "",
+		"email": "abhinavmishra14@gmail.com",
+		"companyaddress1": "",
+		"companyaddress2": "",
+		"companyaddress3": "",
+		"companypostcode": "",
+		"companytelephone": "",
+		"companyfax": "",
+		"companyemail": "",
+		"skype": "",
+		"instantmsg": "",
+		"googleusername": "",
+		"quota": -1,
+		"sizeCurrent": 0,
+		"emailFeedDisabled": false,
+		"persondescription": "",
+		"groups": [{
+			"itemName": "GROUP_ALFRESCO_ADMINISTRATORS",
+			"displayName": "ALFRESCO_ADMINISTRATORS"
+		},
+		{
+			"itemName": "GROUP_ALFRESCO_SEARCH_ADMINISTRATORS",
+			"displayName": "ALFRESCO_SEARCH_ADMINISTRATORS"
+		},
+		{
+			"itemName": "GROUP_EMAIL_CONTRIBUTORS",
+			"displayName": "EMAIL_CONTRIBUTORS"
+		},
+		{
+			"itemName": "GROUP_JOB_ADMINISTRATORS",
+			"displayName": "JOB_ADMINISTRATORS"
+		},
+		{
+			"itemName": "GROUP_SITE_ADMINISTRATORS",
+			"displayName": "SITE_ADMINISTRATORS"
+		}],
+		"siteInfo": [{
+			"url": "/alfresco/service/api/sites/swsdp",
+			"sitePreset": "site-dashboard",
+			"shortName": "swsdp",
+			"title": "Sample: Web Site Design Project",
+			"description": "This is a Sample Alfresco Team site.",
+			"node": "/alfresco/service/api/node/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"tagScope": "/alfresco/service/api/tagscopes/workspace/SpacesStore/b4cff62a-664d-4d45-9302-98723eac1319",
+			"siteRole": "SiteManager",
+			"isPublic": true,
+			"visibility": "PUBLIC"
+		}],
+		"capabilities": {
+			"isMutable": true,
+			"isGuest": false,
+			"isAdmin": true
+		},
+		"immutability": {
+			
+		}
+	}]
+}
