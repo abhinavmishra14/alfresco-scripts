@@ -1,5 +1,6 @@
 # alfresco-scripts
-Alfresco commonly used scripts which can be executed from java command line. There are services which can be consumed by any external application if needed
+
+These are commonly used scripts which can be executed from java command line. There are services which can be consumed by any external application if needed. These scripts uses OOTB Alfresco REST APIs to get the information and performs the operations according to the need. 
 
 
 ###Currently available scripts:
