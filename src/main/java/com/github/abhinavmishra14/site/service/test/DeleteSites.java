@@ -92,7 +92,7 @@ public class DeleteSites {
 		final List<String> allSites = siteService.getSiteShortNameList(authTicket);
 		LOG.info("Allsites: "+allSites.size()+" |-> "+allSites);
 		final List<String> excludeSites = Arrays.asList(allowedSites);
-		LOG.info("Excludeding: "+excludeSites.size()+" |-> "+excludeSites);
+		LOG.info("Excluding: "+excludeSites.size()+" |-> "+excludeSites);
 
 		allSites.removeAll(excludeSites);
 		LOG.info("Excluded: "+allSites.size()+" |-> "+allSites);
