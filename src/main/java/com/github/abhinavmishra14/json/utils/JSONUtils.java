@@ -15,22 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.abhinavmishra14.json.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -216,4 +224,85 @@ public final class JSONUtils {
         }
         return combinedJson;
     }
+	
+	/**
+	 * Sort json.
+	 *
+	 * @param jsonArray the json array
+	 * @param sortedBy the sorted by
+	 * @return the JSON array
+	 * @throws JSONException the JSON exception
+	 */
+	public static JSONArray sortJson(final JSONArray jsonArray,
+			final String sortedBy) throws JSONException {
+		final JSONArray sortedJsonArray = new JSONArray();
+		final List<JSONObject> jsonValues = new ArrayList<JSONObject>();
+		for (int each = 0; each < jsonArray.length(); each++) {
+			jsonValues.add(jsonArray.getJSONObject(each));
+		}
+		Collections.sort(jsonValues, new Comparator<JSONObject>() {
+			@Override
+	        public int compare(final JSONObject firstObj, final JSONObject secondObj) {
+	            String firstVal = StringUtils.EMPTY;
+	            String secondVal = StringUtils.EMPTY;
+	            try {
+	                firstVal = (String) firstObj.get(sortedBy);
+	                secondVal = (String) secondObj.get(sortedBy);
+	            } catch (JSONException excp) {
+	            	LOG.error("Failed to parse json while sorting", excp);
+	            }
+	            return firstVal.compareTo(secondVal);
+	        }
+		});
+		for (int each = 0; each < jsonValues.size(); each++) {
+			sortedJsonArray.put(jsonValues.get(each));
+		}
+		return sortedJsonArray;
+	}
+	
+	/**
+	 * Gets the map fom json string.
+	 *
+	 * @param jsonString the json string
+	 * @return the map fom json string
+	 */
+	public static Map<String, Object> getMapFomJsonString(final String jsonString) {
+		Map<String, Object> map = null;
+		try {
+			map = getJsonObjectMapper().readValue(jsonString, new TypeReference<Map<String, Object>>(){});
+		} catch (IOException ioex) {
+			LOG.error("Failed to parse and populate map from jsonString", ioex);
+		}
+		return map;
+	}
+	
+	/**
+	 * Gets the map from json input stream.
+	 *
+	 * @param inputStreamJson the input stream json
+	 * @return the map from json input stream
+	 */
+	public static Map<String, Object> getMapFromJsonInputStream(
+			final InputStream inputStreamJson) {
+		Map<String, Object> map = null;
+		try {
+			final String jsonString = IOUtils.toString(inputStreamJson, StandardCharsets.UTF_8);
+			map = getMapFomJsonString(jsonString);
+		} catch (IOException ioex) {
+			LOG.error("Failed to parse and populate map from json input stream", ioex);
+		}
+		return map;
+	}
+	
+	/**
+	 * Gets the map from json file.
+	 *
+	 * @param classpathFilePath the class path file path
+	 * @return the map from json file
+	 */
+	public static Map<String, Object> getMapFromJsonFile(
+			final String classpathFilePath) {
+		final InputStream inputStreamJson = JSONUtils.class.getResourceAsStream(classpathFilePath);		
+		return getMapFromJsonInputStream(inputStreamJson);
+	}
 }
