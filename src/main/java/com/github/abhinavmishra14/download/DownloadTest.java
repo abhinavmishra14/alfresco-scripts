@@ -82,6 +82,7 @@ public class DownloadTest {
 			if (StringUtils.isEmpty(inputFilePath)) {
 				throw new IllegalArgumentException("Please provide a valid json inputFilePath");
 			}
+			//A sample input file is available here: /alfresco-scripts/samples/files-to-download.json
 			inputFilePath = FilenameUtils.separatorsToSystem(inputFilePath);
 		}
 		
