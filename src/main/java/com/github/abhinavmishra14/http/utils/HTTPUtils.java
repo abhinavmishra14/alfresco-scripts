@@ -20,7 +20,11 @@ package com.github.abhinavmishra14.http.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -31,11 +35,14 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -73,7 +80,7 @@ public final class HTTPUtils {
 	/** The Constant MIME_JSON. */
 	public static final String MIME_JSON = "application/json";
 	
-	/** The Constant UTF8 */
+	/** The Constant UTF8. */
 	public static final String UTF8 = "UTF-8";
 
 	/** The Constant LOG. */
@@ -103,6 +110,25 @@ public final class HTTPUtils {
 	}
 	
 	/**
+	 * Http get tls.
+	 *
+	 * @param url the url
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpGetTLS(final String url)
+			throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http get with url: "+ url);
+		final HttpClient httpclient = createNewClientWithTLS();
+		final HttpGet request = new HttpGet(url);
+		return httpclient.execute(request);
+	}
+	
+	/**
 	 * Execute http get.
 	 *
 	 * @param url the url
@@ -121,6 +147,32 @@ public final class HTTPUtils {
 				userName, password);
 		provider.setCredentials(AuthScope.ANY, credentials);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultCredentialsProvider(provider).build();
+		final HttpGet request = new HttpGet(url);
+		return httpclient.execute(request);
+	}
+	
+	/**
+	 * Http get tls.
+	 *
+	 * @param url the url
+	 * @param userName the user name
+	 * @param password the password
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpGetTLS(final String url,
+			final String userName, final String password)
+			throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http get with url: "+ url);
+		final CredentialsProvider provider = new BasicCredentialsProvider();
+		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
+				userName, password);
+		provider.setCredentials(AuthScope.ANY, credentials);
+		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
 		final HttpGet request = new HttpGet(url);
 		return httpclient.execute(request);
 	}
@@ -151,6 +203,36 @@ public final class HTTPUtils {
 		httpPost.setEntity(httpEntity);		
 		return httpclient.execute(httpPost);
 	}
+	
+	/**
+	 * Http post tls.
+	 *
+	 * @param url the url
+	 * @param jsonReqData the json req data
+	 * @param userName the user name
+	 * @param password the password
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpPostTLS(final String url,
+			final String jsonReqData, final String userName,
+			final String password) throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http post with url: "+ url);
+		final CredentialsProvider provider = new BasicCredentialsProvider();
+		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
+				userName, password);
+		provider.setCredentials(AuthScope.ANY, credentials);
+		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final HttpPost httpPost = new HttpPost(url);
+		final StringEntity httpEntity = new StringEntity(jsonReqData);
+		httpEntity.setContentType(MIME_JSON);
+		httpPost.setEntity(httpEntity);		
+		return httpclient.execute(httpPost);
+	}
 			
 	/**
 	 * Http post.
@@ -166,6 +248,29 @@ public final class HTTPUtils {
 			IOException {
 		LOG.info("Sending http post with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+		final HttpPost httpPost = new HttpPost(url);
+		final StringEntity httpEntity = new StringEntity(jsonReqData);
+		httpEntity.setContentType(MIME_JSON);
+		httpPost.setEntity(httpEntity);		
+		return httpclient.execute(httpPost);
+	}
+	
+	/**
+	 * Http post tls.
+	 *
+	 * @param url the url
+	 * @param jsonReqData the json req data
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpPostTLS(final String url,
+			final String jsonReqData) throws ClientProtocolException,
+			IOException, KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http post with url: "+ url);
+		final HttpClient httpclient = createNewClientWithTLS();
 		final HttpPost httpPost = new HttpPost(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -193,6 +298,27 @@ public final class HTTPUtils {
 	}
 	
 	/**
+	 * Http post tls.
+	 *
+	 * @param url the url
+	 * @param params the params
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpPostTLS(final String url,
+			final List<NameValuePair> params) throws ClientProtocolException,
+			IOException, KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http post with url: "+ url+ " params: "+params);
+		final HttpClient httpclient = createNewClientWithTLS();
+		final HttpPost httpPost = new HttpPost(url);
+		httpPost.setEntity(new UrlEncodedFormEntity(params, UTF8));	
+		return httpclient.execute(httpPost);
+	}
+	
+	/**
 	 * Http put.
 	 *
 	 * @param url the url
@@ -205,6 +331,29 @@ public final class HTTPUtils {
 			final String jsonReqData) throws ClientProtocolException, IOException {
 		LOG.info("Sending http put with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+		final HttpPut httpPut = new HttpPut(url);
+		final StringEntity httpEntity = new StringEntity(jsonReqData);
+		httpEntity.setContentType(MIME_JSON);
+		httpPut.setEntity(httpEntity);
+		return httpclient.execute(httpPut);
+	}
+	
+	/**
+	 * Http put tls.
+	 *
+	 * @param url the url
+	 * @param jsonReqData the json req data
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpPutTLS(final String url,
+			final String jsonReqData) throws ClientProtocolException,
+			IOException, KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http put with url: "+ url);
+		final HttpClient httpclient = createNewClientWithTLS();
 		final HttpPut httpPut = new HttpPut(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -238,6 +387,36 @@ public final class HTTPUtils {
 		httpPut.setEntity(httpEntity);
 		return httpclient.execute(httpPut);
 	}
+	
+	/**
+	 * Http put tls.
+	 *
+	 * @param url the url
+	 * @param jsonReqData the json req data
+	 * @param userName the user name
+	 * @param password the password
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpPutTLS(final String url,
+			final String jsonReqData, final String userName,
+			final String password) throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http put with url: "+ url);
+		final CredentialsProvider provider = new BasicCredentialsProvider();
+		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
+				userName, password);
+		provider.setCredentials(AuthScope.ANY, credentials);
+		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final HttpPut httpPut = new HttpPut(url);
+		final StringEntity httpEntity = new StringEntity(jsonReqData);
+		httpEntity.setContentType(MIME_JSON);
+		httpPut.setEntity(httpEntity);
+		return httpclient.execute(httpPut);
+	}
 		
 	/**
 	 * Http delete.
@@ -251,6 +430,25 @@ public final class HTTPUtils {
 			throws ClientProtocolException, IOException {
 		LOG.info("Sending http delete with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
+		final HttpDelete httpDelete = new HttpDelete(url);	
+		return httpclient.execute(httpDelete);
+	}
+	
+	/**
+	 * Http delete tls.
+	 *
+	 * @param url the url
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpDeleteTLS(final String url)
+			throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http delete with url: "+ url);
+		final HttpClient httpclient = createNewClientWithTLS();
 		final HttpDelete httpDelete = new HttpDelete(url);	
 		return httpclient.execute(httpDelete);
 	}
@@ -280,6 +478,33 @@ public final class HTTPUtils {
 	}
 	
 	/**
+	 * Http delete tls.
+	 *
+	 * @param url the url
+	 * @param jsonReqData the json req data
+	 * @param userName the user name
+	 * @param password the password
+	 * @return the http response
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws IOException the IO exception
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	public static HttpResponse httpDeleteTLS(final String url,
+			final String jsonReqData, final String userName,
+			final String password) throws ClientProtocolException, IOException,
+			KeyManagementException, NoSuchAlgorithmException {
+		LOG.info("Sending http delete with url: "+ url);
+		final CredentialsProvider provider = new BasicCredentialsProvider();
+		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
+				userName, password);
+		provider.setCredentials(AuthScope.ANY, credentials);
+		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final HttpDelete httpDelete = new HttpDelete(url);	
+		return httpclient.execute(httpDelete);
+	}
+	
+	/**
 	 * Convert stream to string.
 	 *
 	 * @param responseStream the response stream
@@ -289,5 +514,40 @@ public final class HTTPUtils {
 	public static String convertStreamToString(final InputStream responseStream)
 			throws IOException {
 		return IOUtils.toString(responseStream,StandardCharsets.UTF_8);
+	}
+	
+	/**
+     * Creates the new client.
+     *
+     * @return the http client
+     * @throws KeyManagementException the key management exception
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     */
+	private static HttpClient createNewClientWithTLS() throws KeyManagementException,
+			NoSuchAlgorithmException {
+    	final SSLContext sslContext = SSLContexts.custom().useTLS().build();
+		final SSLConnectionSocketFactory sslConnFactory = new SSLConnectionSocketFactory(
+			    sslContext,  new String[]{"TLSv1", "TLSv1.1", "TLSv1.2"},   
+			    null, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		//Returns the CloseableHttpClient
+        return HttpClientBuilder.create().setSSLSocketFactory(sslConnFactory).build();
+    }
+	
+	/**
+	 * Creates the new client with credentials and tls.
+	 *
+	 * @param provider the provider
+	 * @return the http client
+	 * @throws KeyManagementException the key management exception
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 */
+	private static HttpClient createNewClientWithCredentialsAndTLS(final CredentialsProvider provider)
+			throws KeyManagementException, NoSuchAlgorithmException {
+		final SSLContext sslContext = SSLContexts.custom().useTLS().build();
+		final SSLConnectionSocketFactory sslConnFactory = new SSLConnectionSocketFactory(
+				sslContext,  new String[]{"TLSv1", "TLSv1.1", "TLSv1.2"},   
+				null, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+		//Returns the CloseableHttpClient
+		return HttpClientBuilder.create().setDefaultCredentialsProvider(provider).setSSLSocketFactory(sslConnFactory).build();
 	}
 }
