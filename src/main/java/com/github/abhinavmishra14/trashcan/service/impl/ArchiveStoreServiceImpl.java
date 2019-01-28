@@ -93,8 +93,11 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 				final JSONObject eachNodeObj = deletedNodes.getJSONObject(each);
 				if (eachNodeObj.has(AlfScriptConstants.ARCHIEVED_DATE)) {
 					final String archivedDate = eachNodeObj.getString(AlfScriptConstants.ARCHIEVED_DATE);
-					if (AlfScriptUtils.olderThanDays(archivedDate,olderThanDays)
-							&& eachNodeObj.has(AlfScriptConstants.NODE_REF)) {
+					if (eachNodeObj.has(AlfScriptConstants.NODE_REF) && olderThanDays > 0) {
+						if (AlfScriptUtils.olderThanDays(archivedDate, olderThanDays)) {
+							nodeList.add(eachNodeObj.getString(AlfScriptConstants.NODE_REF));
+						}
+					} else {
 						nodeList.add(eachNodeObj.getString(AlfScriptConstants.NODE_REF));
 					}
 				}
