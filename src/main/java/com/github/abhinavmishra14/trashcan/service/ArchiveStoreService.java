@@ -25,7 +25,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.abhinavmishra14.reports.exception.UserReportException;
 
 /**
  * The Interface ArchiveStoreService.
@@ -83,10 +82,9 @@ public interface ArchiveStoreService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 */
 	void deleteArchivedNode(final String archivedNode, final String authTicket)
 			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, UserReportException, IOException;
+			ClientProtocolException, IOException;
 }

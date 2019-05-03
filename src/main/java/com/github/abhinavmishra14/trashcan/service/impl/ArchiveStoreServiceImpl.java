@@ -40,7 +40,6 @@ import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
-import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.trashcan.service.ArchiveStoreService;
 
 /**
@@ -178,13 +177,11 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 */
 	public void deleteArchivedNode(final String archivedNode,
 			final String authTicket) throws URISyntaxException,
-			JsonProcessingException, ClientProtocolException,
-			UserReportException, IOException {
+			JsonProcessingException, ClientProtocolException, IOException {
 		LOG.info("Deleting archived node: "+archivedNode);
 		final Object[] uriArgs = {serverEndpoint, StringUtils.substringAfter(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)};
 		final MessageFormat msgFormat = new MessageFormat(DELETE_ARCHIVED_NODE_URI);

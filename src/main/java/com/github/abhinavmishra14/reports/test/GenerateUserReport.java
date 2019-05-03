@@ -38,6 +38,7 @@ import com.github.abhinavmishra14.auth.service.impl.AuthenticationServiceImpl;
 import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.reports.impl.UserReportServiceImpl;
 import com.github.abhinavmishra14.reports.service.UserReportService;
+
 /**
  * The Class GenerateUserReport.
  */

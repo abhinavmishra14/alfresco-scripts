@@ -27,6 +27,7 @@ public final class AlfScriptConstants {
 	public static final String DEFAULT_PASSWORD = "admin";
 	public static final String DEFAULT_HOST = "http://127.0.0.1:8080";
 	public static final int DEFAULT_BATCH_SIZE = 1000;
+	//Use -1 for everything 
 	public static final int DEFAULT_DAYS = 30;
 	public static final String DEFAULT_SKIP_COUNT = "0";
 

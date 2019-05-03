@@ -17,8 +17,11 @@
  */
 package com.github.abhinavmishra14.http.utils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -26,17 +29,16 @@ import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -101,7 +103,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpGet(final String url)
+	public static CloseableHttpResponse httpGet(final String url)
 			throws ClientProtocolException, IOException {
 		LOG.info("Sending http get with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
@@ -119,11 +121,11 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpGetTLS(final String url)
+	public static CloseableHttpResponse httpGetTLS(final String url)
 			throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http get with url: "+ url);
-		final HttpClient httpclient = createNewClientWithTLS();
+		final CloseableHttpClient httpclient = createNewClientWithTLS();
 		final HttpGet request = new HttpGet(url);
 		return httpclient.execute(request);
 	}
@@ -138,7 +140,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpGet(final String url,
+	public static CloseableHttpResponse httpGet(final String url,
 			final String userName, final String password)
 			throws ClientProtocolException, IOException {
 		LOG.info("Sending http get with url: "+ url);
@@ -163,7 +165,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpGetTLS(final String url,
+	public static CloseableHttpResponse httpGetTLS(final String url,
 			final String userName, final String password)
 			throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
@@ -172,7 +174,7 @@ public final class HTTPUtils {
 		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
 				userName, password);
 		provider.setCredentials(AuthScope.ANY, credentials);
-		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final CloseableHttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
 		final HttpGet request = new HttpGet(url);
 		return httpclient.execute(request);
 	}
@@ -188,7 +190,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpPost(final String url,
+	public static CloseableHttpResponse httpPost(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException {
 		LOG.info("Sending http post with url: "+ url);
@@ -217,7 +219,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpPostTLS(final String url,
+	public static CloseableHttpResponse httpPostTLS(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
@@ -226,7 +228,7 @@ public final class HTTPUtils {
 		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
 				userName, password);
 		provider.setCredentials(AuthScope.ANY, credentials);
-		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final CloseableHttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
 		final HttpPost httpPost = new HttpPost(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -243,7 +245,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpPost(final String url,
+	public static CloseableHttpResponse httpPost(final String url,
 			final String jsonReqData) throws ClientProtocolException,
 			IOException {
 		LOG.info("Sending http post with url: "+ url);
@@ -266,11 +268,11 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpPostTLS(final String url,
+	public static CloseableHttpResponse httpPostTLS(final String url,
 			final String jsonReqData) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http post with url: "+ url);
-		final HttpClient httpclient = createNewClientWithTLS();
+		final CloseableHttpClient httpclient = createNewClientWithTLS();
 		final HttpPost httpPost = new HttpPost(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -287,7 +289,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpPost(final String url,
+	public static CloseableHttpResponse httpPost(final String url,
 			final List<NameValuePair> params) throws ClientProtocolException,
 			IOException {
 		LOG.info("Sending http post with url: "+ url+ " params: "+params);
@@ -308,11 +310,11 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpPostTLS(final String url,
+	public static CloseableHttpResponse httpPostTLS(final String url,
 			final List<NameValuePair> params) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http post with url: "+ url+ " params: "+params);
-		final HttpClient httpclient = createNewClientWithTLS();
+		final CloseableHttpClient httpclient = createNewClientWithTLS();
 		final HttpPost httpPost = new HttpPost(url);
 		httpPost.setEntity(new UrlEncodedFormEntity(params, UTF8));	
 		return httpclient.execute(httpPost);
@@ -327,7 +329,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpPut(final String url,
+	public static CloseableHttpResponse httpPut(final String url,
 			final String jsonReqData) throws ClientProtocolException, IOException {
 		LOG.info("Sending http put with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
@@ -349,11 +351,11 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpPutTLS(final String url,
+	public static CloseableHttpResponse httpPutTLS(final String url,
 			final String jsonReqData) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http put with url: "+ url);
-		final HttpClient httpclient = createNewClientWithTLS();
+		final CloseableHttpClient httpclient = createNewClientWithTLS();
 		final HttpPut httpPut = new HttpPut(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -372,7 +374,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpPut(final String url,
+	public static CloseableHttpResponse httpPut(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException {
 		LOG.info("Sending http put with url: "+ url);
@@ -401,7 +403,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpPutTLS(final String url,
+	public static CloseableHttpResponse httpPutTLS(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
@@ -410,7 +412,7 @@ public final class HTTPUtils {
 		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
 				userName, password);
 		provider.setCredentials(AuthScope.ANY, credentials);
-		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final CloseableHttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
 		final HttpPut httpPut = new HttpPut(url);
 		final StringEntity httpEntity = new StringEntity(jsonReqData);
 		httpEntity.setContentType(MIME_JSON);
@@ -426,7 +428,7 @@ public final class HTTPUtils {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpDelete(final String url)
+	public static CloseableHttpResponse httpDelete(final String url)
 			throws ClientProtocolException, IOException {
 		LOG.info("Sending http delete with url: "+ url);
 		final CloseableHttpClient httpclient = HttpClientBuilder.create().build();
@@ -444,11 +446,11 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpDeleteTLS(final String url)
+	public static CloseableHttpResponse httpDeleteTLS(final String url)
 			throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http delete with url: "+ url);
-		final HttpClient httpclient = createNewClientWithTLS();
+		final CloseableHttpClient httpclient = createNewClientWithTLS();
 		final HttpDelete httpDelete = new HttpDelete(url);	
 		return httpclient.execute(httpDelete);
 	}
@@ -457,15 +459,13 @@ public final class HTTPUtils {
 	 * Http delete.
 	 *
 	 * @param url the url
-	 * @param jsonReqData the json req data
 	 * @param userName the user name
 	 * @param password the password
 	 * @return the http response
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
-	public static HttpResponse httpDelete(final String url,
-			final String jsonReqData, final String userName,
+	public static CloseableHttpResponse httpDelete(final String url, final String userName,
 			final String password) throws ClientProtocolException, IOException {
 		LOG.info("Sending http delete with url: "+ url);
 		final CredentialsProvider provider = new BasicCredentialsProvider();
@@ -481,7 +481,6 @@ public final class HTTPUtils {
 	 * Http delete tls.
 	 *
 	 * @param url the url
-	 * @param jsonReqData the json req data
 	 * @param userName the user name
 	 * @param password the password
 	 * @return the http response
@@ -490,8 +489,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	public static HttpResponse httpDeleteTLS(final String url,
-			final String jsonReqData, final String userName,
+	public static CloseableHttpResponse httpDeleteTLS(final String url, final String userName,
 			final String password) throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
 		LOG.info("Sending http delete with url: "+ url);
@@ -499,7 +497,7 @@ public final class HTTPUtils {
 		final UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(
 				userName, password);
 		provider.setCredentials(AuthScope.ANY, credentials);
-		final HttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
+		final CloseableHttpClient httpclient = createNewClientWithCredentialsAndTLS(provider);
 		final HttpDelete httpDelete = new HttpDelete(url);	
 		return httpclient.execute(httpDelete);
 	}
@@ -513,7 +511,31 @@ public final class HTTPUtils {
 	 */
 	public static String convertStreamToString(final InputStream responseStream)
 			throws IOException {
-		return IOUtils.toString(responseStream,StandardCharsets.UTF_8);
+		String eachLine = StringUtils.EMPTY;
+		try (final Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
+				final BufferedReader buffReader = new BufferedReader(reader)) {
+			final StringBuffer responseBuff = new StringBuffer();
+			while ((eachLine = buffReader.readLine()) != null) {
+				responseBuff.append(eachLine);
+			}
+			return responseBuff.toString();
+		}
+	}
+	
+	/**
+	 * Gets the string from response.
+	 *
+	 * @param httpResponse the http response
+	 * @return the string from response
+	 * @throws IllegalStateException the illegal state exception
+	 * @throws IOException the IO exception
+	 */
+	public static String getStringFromResponse(
+			final CloseableHttpResponse httpResponse)
+			throws IllegalStateException, IOException {
+		try(final InputStream responseStream = httpResponse.getEntity().getContent()) {
+			return convertStreamToString(responseStream);
+		}
 	}
 	
 	/**
@@ -523,7 +545,7 @@ public final class HTTPUtils {
      * @throws KeyManagementException the key management exception
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
-	private static HttpClient createNewClientWithTLS() throws KeyManagementException,
+	private static CloseableHttpClient createNewClientWithTLS() throws KeyManagementException,
 			NoSuchAlgorithmException {
     	final SSLContext sslContext = SSLContexts.custom().useTLS().build();
 		final SSLConnectionSocketFactory sslConnFactory = new SSLConnectionSocketFactory(
@@ -541,7 +563,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
-	private static HttpClient createNewClientWithCredentialsAndTLS(final CredentialsProvider provider)
+	private static CloseableHttpClient createNewClientWithCredentialsAndTLS(final CredentialsProvider provider)
 			throws KeyManagementException, NoSuchAlgorithmException {
 		final SSLContext sslContext = SSLContexts.custom().useTLS().build();
 		final SSLConnectionSocketFactory sslConnFactory = new SSLConnectionSocketFactory(

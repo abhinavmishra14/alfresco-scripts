@@ -15,41 +15,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.abhinavmishra14.trashcan.service.test;
+package com.github.abhinavmishra14.tags.test;
 
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DEFAULT_BATCH_SIZE;
-import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DEFAULT_DAYS;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DEFAULT_HOST;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DEFAULT_PASSWORD;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DEFAULT_USER;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Iterator;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
-import com.github.abhinavmishra14.trashcan.service.ArchiveStoreService;
-import com.github.abhinavmishra14.trashcan.service.impl.ArchiveStoreServiceImpl;
+import com.github.abhinavmishra14.http.utils.HTTPUtils;
+import com.google.common.net.UrlEscapers;
 
 /**
- * The Class ClearTrashcan.
+ * The Class DeleteTags.
  */
-public class ClearTrashcan {
-		
-	/** The Constant LOG. */
-	private final static Log LOG = LogFactory.getLog(ClearTrashcan.class);
+public class DeleteTags {
 	
+	/** The Constant LOG. */
+	private final static Log LOG = LogFactory.getLog(DeleteTags.class);
+
 	/**
 	 * The main method.
 	 *
@@ -58,11 +60,9 @@ public class ClearTrashcan {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
-	 * @throws URISyntaxException the URI syntax exception
 	 */
 	public static void main(String[] args) throws JsonProcessingException,
-			ClientProtocolException, AlfScriptException, IOException,
-			URISyntaxException {
+			ClientProtocolException, AlfScriptException, IOException {
 		
 		String host = DEFAULT_HOST;
 		//Get the host
@@ -84,35 +84,45 @@ public class ClearTrashcan {
 		if (args.length >= 4 && StringUtils.isNotBlank(args[3])) {
 			batchSize = Integer.parseInt(args[3].trim());
 		}
-		
-		int olderThanDays = DEFAULT_DAYS;
-		if (args.length >= 5 && StringUtils.isNotBlank(args[4])) {
-			olderThanDays = Integer.parseInt(args[4].trim());
-		}
-		LOG.info("Clearing trashcan at host: "+host);	
 		final String authTicket = AlfScriptUtils.getTicket(host, userName, password);
-		final ArchiveStoreService arcStoreServ = new ArchiveStoreServiceImpl(host);
-		final List<String> archivedNodes = arcStoreServ.getArchievedNodesAfterDays(authTicket, batchSize, olderThanDays);
-		LOG.info("Total number of nodes found: " +archivedNodes.size()+" older than days: "+olderThanDays);
-		final ExecutorService exec = Executors.newFixedThreadPool(archivedNodes.size()+1);
-		for (final Iterator<String> iterator = archivedNodes.iterator(); iterator.hasNext();) {
-			final String eachNode = iterator.next();
-			exec.submit(new Runnable() {
-				public void run() {
-					try {
-						arcStoreServ.deleteArchivedNode(eachNode, authTicket);
-					} catch (URISyntaxException | IOException excp) {
-						LOG.error("Error occurred while deleting the node", excp);
-					}
+		final String tagURL = host+"/alfresco/service/api/tags/workspace/SpacesStore?details=true&from=0&size="+batchSize+"&alf_ticket="+authTicket;
+		try (final CloseableHttpResponse httpResp = HTTPUtils.httpGet(tagURL)) {
+			final StatusLine status = httpResp.getStatusLine();
+			final int statusCode = status.getStatusCode();
+			final String statusMsg = status.getReasonPhrase();
+			LOG.info("Status: "+statusCode +" | "+ statusMsg);
+			if (statusCode == HTTPUtils.HTTP_CODE_200) {
+				final String resonseStr = IOUtils.toString(httpResp.getEntity().getContent(),
+						StandardCharsets.UTF_8);
+				final JSONObject jsonObj = new JSONObject(resonseStr);
+				final JSONObject data = jsonObj.getJSONObject("data");
+				final JSONArray dataArry = data.getJSONArray("items");
+				final ExecutorService exec = Executors.newFixedThreadPool(dataArry.length()+1);
+				for (int each = 0; each < dataArry.length(); each++) {
+					final JSONObject eachTagObj = dataArry.getJSONObject(each);
+					final String eachTagName = eachTagObj.getString("name");
+					final String deleteTagURL = host+"/alfresco/service/api/tags/workspace/SpacesStore/"+UrlEscapers.urlFragmentEscaper().escape(eachTagName)+"?alf_ticket="+authTicket;
+					exec.submit(new Runnable() {
+						public void run() {
+							try (final CloseableHttpResponse httpDelResp = HTTPUtils.httpDelete(deleteTagURL)) {
+								final StatusLine delStatus = httpResp.getStatusLine();
+								final int delStatusCode = delStatus.getStatusCode();
+								final String delStatusMsg = delStatus.getReasonPhrase();
+								LOG.info("Status: "+delStatusCode +" | "+ delStatusMsg);
+							} catch (IOException excp) {
+								LOG.error("Error occurred while deleting the tag", excp);
+							}
+						}
+					});				
 				}
-			});
-		}
-		
-		exec.shutdown();
-		try {
-			exec.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException excp) {
-			LOG.debug("Thread interrupted: "+excp.getMessage());
+				
+				exec.shutdown();
+				try {
+					exec.awaitTermination(1, TimeUnit.HOURS);
+				} catch (InterruptedException excp) {
+					LOG.debug("Thread interrupted: "+excp.getMessage());
+				}
+			}
 		}
 	}
 }
