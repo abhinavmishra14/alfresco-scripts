@@ -21,6 +21,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -69,12 +72,15 @@ public class XSLTransformationExamples {
 	public static void transformXSL(final InputStream inputXml,
 			final InputStream inputXSL, final String outputFilePath,
 			final Map<String, Object> params)
-					throws TransformerFactoryConfigurationError,
-					TransformerConfigurationException, TransformerException, IOException {
+			throws TransformerFactoryConfigurationError,
+			TransformerConfigurationException, TransformerException,
+			IOException {
 		final TaskTimer timer = new TaskTimer();
 		timer.startTimer();
-		try (final FileOutputStream outputStream = new FileOutputStream(outputFilePath);) {
-			final StreamSource inputSnapshot = new StreamSource(inputXml);
+		try (final FileOutputStream outputStream = new FileOutputStream(outputFilePath);
+				final OutputStreamWriter opStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+				final InputStreamReader inStreamReader = new InputStreamReader(inputXml, StandardCharsets.UTF_8);) {
+			final StreamSource inputSnapshot = new StreamSource(inStreamReader);
 			final StreamSource styleSheetSrc = new StreamSource(inputXSL);
 			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
