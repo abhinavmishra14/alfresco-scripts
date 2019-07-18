@@ -295,6 +295,24 @@ public final class JSONUtils {
 	}
 	
 	/**
+	 * Gets the json object from input stream.
+	 *
+	 * @param inStream the input stream
+	 * @return the JSON object from input stream
+	 */
+	public static JSONObject getJSONObjectFromInputStream(
+			final InputStream inStream) {
+		JSONObject jsonObject = null;
+		try {
+			final String jsonString = IOUtils.toString(inStream, StandardCharsets.UTF_8);
+			jsonObject = new JSONObject(jsonString);
+		} catch (IOException | JSONException excp) {
+			LOG.error("Failed to parse and populate JSONObject from input stream", excp);
+		}
+		return jsonObject;
+	}
+	
+	/**
 	 * Gets the map from json file.
 	 *
 	 * @param classpathFilePath the class path file path
