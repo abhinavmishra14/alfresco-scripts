@@ -60,7 +60,7 @@ public final class XMLMarshaller {
 	 */
 	public static void marshalObjectToFile(final Object anObject,
 			final File fileObj) throws JAXBException, PropertyException {
-		marshalObjectToFile(anObject, fileObj, null, false);
+		marshalObjectToFile(anObject, fileObj, null, false, false);
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public final class XMLMarshaller {
 	public static void marshalObjectToFile(final Object anObject,
 			final File fileObj, final String encodingStr) throws JAXBException,
 			PropertyException {
-		marshalObjectToFile(anObject, fileObj, encodingStr, false);
+		marshalObjectToFile(anObject, fileObj, encodingStr, false, false);
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public final class XMLMarshaller {
 	public static void marshalObjectToFile(final Object anObject,
 			final File fileObj, final boolean ommitXmlDeclaration)
 			throws JAXBException, PropertyException {
-		marshalObjectToFile(anObject, fileObj, null, ommitXmlDeclaration);
+		marshalObjectToFile(anObject, fileObj, null, ommitXmlDeclaration, false);
 	}
 	
 	
@@ -104,7 +104,7 @@ public final class XMLMarshaller {
 	 */
 	public static String marshalObjectToString(final Object anObject)
 			throws JAXBException, IOException {
-		return marshalObjectToString(anObject, null,false);
+		return marshalObjectToString(anObject, null, false, false);
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public final class XMLMarshaller {
 	 */
 	public static String marshalObjectToString(final Object anObject,
 			final String encodingStr) throws JAXBException, IOException {
-		return marshalObjectToString(anObject, encodingStr,false);
+		return marshalObjectToString(anObject, encodingStr, false, false);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public final class XMLMarshaller {
 	 */
 	public static String marshalObjectToString(final Object anObject,
 			final boolean ommitXmlDeclaration) throws JAXBException, IOException {
-		return marshalObjectToString(anObject, null, ommitXmlDeclaration);
+		return marshalObjectToString(anObject, null, ommitXmlDeclaration, false);
 	}
 	
 	/**
@@ -141,17 +141,18 @@ public final class XMLMarshaller {
 	 * @param anObject the an object
 	 * @param encodingStr the encoding str
 	 * @param ommitXmlDeclaration the ommit xml declaration
+	 * @param formatOutput the format output
 	 * @return the string
 	 * @throws JAXBException the JAXB exception
 	 * @throws IOException the IO exception
 	 */
 	public static String marshalObjectToString(final Object anObject,
-			final String encodingStr, final boolean ommitXmlDeclaration)
-			throws JAXBException, IOException {
+			final String encodingStr, final boolean ommitXmlDeclaration,
+			final boolean formatOutput) throws JAXBException, IOException {
 		String xmlStr = StringUtils.EMPTY;
 		final JAXBContext context = JAXBContext.newInstance(anObject.getClass());
 		final Marshaller jaxbMarshaller = context.createMarshaller();
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatOutput);
 		if(ommitXmlDeclaration){
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, ommitXmlDeclaration);
 		}
@@ -172,16 +173,17 @@ public final class XMLMarshaller {
 	 * @param fileObj the file obj
 	 * @param encodingStr the encoding str
 	 * @param ommitXmlDeclaration the ommit xml declaration
+	 * @param formatOutput the format output
 	 * @throws JAXBException the JAXB exception
 	 * @throws PropertyException the property exception
 	 */
 	public static void marshalObjectToFile(final Object anObject,
 			final File fileObj, final String encodingStr,
-			final boolean ommitXmlDeclaration) throws JAXBException,
-			PropertyException {
+			final boolean ommitXmlDeclaration, final boolean formatOutput)
+			throws JAXBException, PropertyException {
 		final JAXBContext jaxbContext = JAXBContext.newInstance(anObject.getClass());
 		final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatOutput);
 		if(ommitXmlDeclaration){
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, ommitXmlDeclaration);
 		}
@@ -197,16 +199,17 @@ public final class XMLMarshaller {
 	 * @param anObject the an object
 	 * @param encodingStr the encoding str
 	 * @param ommitXmlDeclaration the ommit xml declaration
+	 * @param formatOutput the format output
 	 * @return the string writer
 	 * @throws JAXBException the JAXB exception
 	 * @throws IOException the IO exception
 	 */
 	public static StringWriter marshalObjectToWriter(final Object anObject,
-			final String encodingStr, final boolean ommitXmlDeclaration)
-			throws JAXBException, IOException {
+			final String encodingStr, final boolean ommitXmlDeclaration,
+			final boolean formatOutput) throws JAXBException, IOException {
 		final JAXBContext context = JAXBContext.newInstance(anObject.getClass());
 		final Marshaller jaxbMarshaller = context.createMarshaller();
-		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatOutput);
 		if(ommitXmlDeclaration){
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, ommitXmlDeclaration);
 		}
