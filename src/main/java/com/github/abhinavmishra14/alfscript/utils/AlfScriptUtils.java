@@ -18,7 +18,10 @@
 package com.github.abhinavmishra14.alfscript.utils;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
@@ -37,7 +40,24 @@ public final class AlfScriptUtils {
 	
 	/** The Constant LOG. */
 	private final static Log LOG = LogFactory.getLog(AlfScriptUtils.class);
-
+	
+	/**
+	 * Sub string using pattern.
+	 *
+	 * @param aString the a string
+	 * @param regEx the reg ex
+	 * @return the string
+	 */
+	public static String subStringUsingPattern(final String aString, final String regEx) {
+		String matchedString = StringUtils.EMPTY;
+		final Pattern pattern = Pattern.compile(regEx);
+		final Matcher matcher = pattern.matcher(aString);
+		if (matcher.find()) {                                  
+		    matchedString = matcher.group();
+		}
+		return matchedString;
+	}
+	
 	/**
 	 * Gets the ticket.
 	 *
