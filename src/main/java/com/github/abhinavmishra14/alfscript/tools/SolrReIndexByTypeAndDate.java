@@ -59,6 +59,8 @@ public class SolrReIndexByTypeAndDate {
 	 * @throws ClientProtocolException 
 	 */
 	public static void main(String[] args) throws ClientProtocolException, IOException {
+		LOG.info("USAGE: {com.github.abhinavmishra14.alfscript.tools.SolrReIndexByTypeAndDate <host> <objectType> <startDateTime> <endDateTime> } \n -> example: \n http://127.0.0.1:8083 cm:content 2019-09-01T00:00:00 NOW \n -> Date Time format must be in YYYY-MM-DDThh:mm:ss \n Refer for supported date formats: https://lucene.apache.org/solr/guide/6_6/working-with-dates.html \n");
+		
 		String host = DEFAULT_HOST;
 		//Get the host
 		if (args.length >= 1 && StringUtils.isNotBlank(args[0])) {
