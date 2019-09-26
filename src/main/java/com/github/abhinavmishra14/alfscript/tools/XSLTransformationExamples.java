@@ -39,6 +39,11 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.github.abhinavmishra14.alfscript.utils.TaskTimer;
+
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
@@ -49,13 +54,13 @@ import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 
-import com.github.abhinavmishra14.alfscript.utils.TaskTimer;
-
-
 /**
  * The Class XSLTransformationExamples.
  */
 public class XSLTransformationExamples {
+	
+	/** The Constant LOG. */
+	private final static Log LOG = LogFactory.getLog(XSLTransformationExamples.class);
 
 	/**
 	 * Transform xsl.
@@ -99,7 +104,7 @@ public class XSLTransformationExamples {
 			transformer.transform(inputSnapshot, result);
 		}
 		timer.endTimer();
-		System.out.println("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
+		LOG.info("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
 	}
 
 	/**
@@ -136,7 +141,7 @@ public class XSLTransformationExamples {
 		trans.setDestination(out);
 		trans.transform();
 		timer.endTimer();
-		System.out.println("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
+		LOG.info("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
 	}
 
 	/**
@@ -191,11 +196,18 @@ public class XSLTransformationExamples {
 		}
 
 		timer.endTimer();
-		System.out.println("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
+		LOG.info("Output written into file. Time taken: "+ timer.getFormattedTotalTime());
 	}
 }
 
+/**
+ * The Class ClasspathResourceURIResolver.
+ */
 class ClasspathResourceURIResolver implements URIResolver {
+	
+	/* (non-Javadoc)
+	 * @see javax.xml.transform.URIResolver#resolve(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Source resolve(final String href, final String base) throws TransformerException {
 		return new StreamSource(getClass().getClassLoader().getResourceAsStream(href));
