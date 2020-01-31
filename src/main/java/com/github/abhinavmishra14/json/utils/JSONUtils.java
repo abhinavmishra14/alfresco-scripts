@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -322,5 +323,85 @@ public final class JSONUtils {
 			final String classpathFilePath) {
 		final InputStream inputStreamJson = JSONUtils.class.getResourceAsStream(classpathFilePath);		
 		return getMapFromJsonInputStream(inputStreamJson);
+	}
+	
+	/**
+	 * Difference.
+	 *
+	 * @param jsonObjOne the json obj one
+	 * @param jsonObjTwo the json obj two
+	 * @return the map
+	 */
+	public static Map<String, Object> difference(final JSONObject jsonObjOne, final JSONObject jsonObjTwo) {
+		final Map<String, Object> mapOne = jsonObjOne.toMap();
+		final Map<String, Object> mapTwo = jsonObjTwo.toMap();
+		return intersection(mapOne, mapTwo);
+	}
+
+	/**
+	 * Difference.
+	 *
+	 * @param mapOne the map one
+	 * @param mapTwo the map two
+	 * @return the map
+	 */
+	public static Map<String, Object> difference(final Map<String, Object> mapOne, final Map<String, Object> mapTwo) {
+		final Map<String, Object> intersection = new LinkedHashMap<String, Object>();
+		for (final String key : mapOne.keySet()) {
+			if (!mapTwo.containsKey(key)) {
+				intersection.put(key, mapOne.get(key));
+			}
+		}
+		return intersection;
+	}
+	
+	/**
+	 * Difference.
+	 *
+	 * @param jsonMap the json map
+	 * @return the JSON object
+	 */
+	public static JSONObject difference(final Map<String, Object> jsonMap) {
+		return new JSONObject(jsonMap);
+	}
+	
+	/**
+	 * Intersection.
+	 *
+	 * @param jsonObjOne the json obj one
+	 * @param jsonObjTwo the json obj two
+	 * @return the map
+	 */
+	public static Map<String, Object> intersection(final JSONObject jsonObjOne, final JSONObject jsonObjTwo) {
+		final Map<String, Object> mapOne = jsonObjOne.toMap();
+		final Map<String, Object> mapTwo = jsonObjTwo.toMap();
+		return intersection(mapOne, mapTwo);
+	}
+	
+	/**
+	 * Intersection.
+	 *
+	 * @param mapOne the map one
+	 * @param mapTwo the map two
+	 * @return the map
+	 */
+	public static Map<String, Object> intersection(final Map<String, Object> mapOne, final Map<String, Object> mapTwo) {
+		final Map<String, Object> intersection = new LinkedHashMap<String, Object>();
+		for (final String key : mapOne.keySet()) {
+			if (mapTwo.containsKey(key)) {
+				intersection.put(key, mapOne.get(key));
+			}
+		}
+		return intersection;
+	}
+	
+	/**
+	 * Intersection.
+	 *
+	 * @param jsonMap the json map
+	 * @return the JSON object
+	 */
+	public static JSONObject intersection(final Map<String, Object> jsonMap) {
+		return new JSONObject(jsonMap);
 	}
 }
