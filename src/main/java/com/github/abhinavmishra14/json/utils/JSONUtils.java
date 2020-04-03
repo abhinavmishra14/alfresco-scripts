@@ -384,14 +384,4 @@ public final class JSONUtils {
 		}
 		return intersection;
 	}
-	
-	/**
-	 * Intersection.
-	 *
-	 * @param jsonMap the json map
-	 * @return the JSON object
-	 */
-	public static JSONObject intersection(final Map<String, Object> jsonMap) {
-		return new JSONObject(jsonMap);
-	}
 }
