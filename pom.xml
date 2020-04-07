@@ -12,6 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>true</skipTests>
 		<jackson.version>2.10.0</jackson.version>
+		<mainClass>com.github.abhinavmishra14.trashcan.service.test.ClearTrashcan</mainClass>
 	</properties>
 
 	<licenses>
@@ -137,6 +138,80 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-assembly-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>single</goal>
+			            </goals>
+			            <configuration>
+			                <archive>
+				                <manifest>
+				                    <mainClass>
+				                        ${mainClass}
+				                    </mainClass>
+				                </manifest>
+			                </archive>
+			                <descriptorRefs>
+			                    <descriptorRef>jar-with-dependencies</descriptorRef>
+			                </descriptorRefs>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+			
+			<!-- <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-shade-plugin</artifactId>
+			    <version>3.0.0</version>
+			    <configuration>
+			        <createDependencyReducedPom>false</createDependencyReducedPom>
+			        <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>${mainClass}</Main-Class>
+                                <Build-Number>2</Build-Number>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>shade</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin> -->
+			
+			<plugin>
+	            <artifactId>maven-antrun-plugin</artifactId>
+	            <version>1.8</version> <!--$NO-MVN-MAN-VER$-->
+	            <executions>
+	                <execution>
+	                    <id>copy</id>
+	                    <phase>package</phase>
+	                    <configuration>
+	                        <target>
+	                            <echo>Copying artifacts to ${basedir}/distribution ...</echo>
+	                            <copy todir="${basedir}/distribution" overwrite="true" flatten="true">
+	                                <fileset dir="${basedir}/target" includes="*.jar" >
+	                                    <include name="target/*.jar" />
+	                                </fileset>
+	                            </copy>
+	                        </target>
+	                    </configuration>
+	                    <goals>
+	                        <goal>run</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
 		</plugins>
 	</build>
 	<description>Alfresco commonly used scripts which can be executed from java command line. There are services which can be consumed by any external application if needed.</description>
