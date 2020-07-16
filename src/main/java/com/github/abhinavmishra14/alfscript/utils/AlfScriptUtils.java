@@ -18,6 +18,11 @@
 package com.github.abhinavmishra14.alfscript.utils;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAmount;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,6 +80,38 @@ public final class AlfScriptUtils {
 			ClientProtocolException, IOException, AlfScriptException {
 		final AuthenticationService authServ = new AuthenticationServiceImpl(host);
 		return authServ.getAuthTicket(userName, password);
+	}
+	
+	/**
+	 * Gets the start time based on units.<br>
+	 * Examples: 
+	 *
+	 * @param input the input
+	 * @return the start time based on units
+	 */
+	public static long getStartTimeBasedOnUnits(final String input) {
+		if ("now".equalsIgnoreCase(input)) {
+			return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		} else {
+			final TemporalAmount tempAm = Duration.parse(input);
+			LOG.info("Parsed input: " + tempAm);
+			final LocalDateTime now = LocalDateTime.now();
+			final LocalDateTime nowPlus = now.plus(tempAm);
+			return nowPlus.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+		}
+	}
+	
+	/**
+	 * Gets the date time after number of days.
+	 *
+	 * @param numberOfDays the number of days
+	 * @return the date time after number of days
+	 */
+	public static String getDateTimeAfterNumberOfDays(final int numberOfDays) {
+        final Calendar calendar = Calendar.getInstance();
+        // Adding number of days
+        calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);        
+        return String.valueOf(calendar.getTime().getTime());
 	}
 	
 	/**
