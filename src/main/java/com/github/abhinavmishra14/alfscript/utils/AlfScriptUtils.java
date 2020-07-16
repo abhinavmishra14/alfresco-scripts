@@ -84,7 +84,8 @@ public final class AlfScriptUtils {
 	
 	/**
 	 * Gets the start time based on units.<br>
-	 * Examples: 
+	 * Examples: now, PT10m (10 minutes from now), PT10h (10 hours from now), PT10h10m (10 hours and 10 minutes from now),
+	 * P1DT10m (1 day and 10 minutes from now) etc.
 	 *
 	 * @param input the input
 	 * @return the start time based on units
