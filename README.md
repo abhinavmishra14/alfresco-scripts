@@ -3,9 +3,8 @@
 These are commonly used scripts which can be executed from java command line. There are services which can be consumed by any external application if needed. These scripts uses OOTB Alfresco REST APIs to get the information and performs the operations according to the need. 
 
 
-### Currently available scripts:
 
- 1- Delete sites by excluding a list of sites (sites which you don't want to delete)
+# Delete sites by excluding a list of sites (sites which you don't want to delete)
  
  ```java
   java -cp alfresco-scripts-jar-with-dependencies.jar  com.github.abhinavmishra14.site.service.test.DeleteSites [HOST] [USER] [PASSWORD] [EXCLUDED_SITES_DEFAULT_COMMA_SEPARATED]
@@ -22,7 +21,10 @@ These are commonly used scripts which can be executed from java command line. Th
    - EXCLUDED_SITES_DEFAULT_COMMA_SEPARATED -> Is the sites you want to exclude from deletion. e.g.: test-site, test-site2
    
  
- 2- Generate User report along with user groups. OOTB Alfresco doesn't have direct API to do get all users along with their groups at once. Though you can get user profile of a particular user along with group. This report also includes information of all the sites which the user has access. Report is generated as a json. See the sample report here: samples/userReports.json
+
+# Generate User report along with user groups.
+
+#### OOTB Alfresco doesn't have direct API to do get all users along with their groups at once. Though you can get user profile of a particular user along with group. This report also includes information of all the sites which the user has access. Report is generated as a json. See the sample report here: samples/userReports.json
  
  
  ```java 
@@ -38,7 +40,8 @@ These are commonly used scripts which can be executed from java command line. Th
    - PASSWORD -> Is the password for authentication
    
  
- 3- Cleanup trash can script
+
+# Cleanup trash can script
 
  ```java
  java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.trashcan.service.test.ClearTrashcan [HOST] [USER] [PASSWORD] [BATCH_SIZE] [OLDER_THAN_NUM_OF_DAYS]
@@ -57,7 +60,8 @@ These are commonly used scripts which can be executed from java command line. Th
    - OLDER_THAN_NUM_OF_DAYS -> How many days older items needs deletion
  
  
- 4- Delete all tags script
+
+#  Delete all tags script
 
  ```java
  java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.tags.test.DeleteTags [HOST] [USER] [PASSWORD] [BATCH_SIZE]
