@@ -11,7 +11,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<skipTests>true</skipTests>
-		<jackson.databind.version>2.13.4.1</jackson.databind.version>
+		<jackson.databind.version>2.13.4.2</jackson.databind.version>
 		<jackson.annotations.version>2.13.4</jackson.annotations.version>
 		<jackson.core.version>2.13.4</jackson.core.version>
 		<mainClass>com.github.abhinavmishra14.trashcan.service.test.ClearTrashcan</mainClass>
