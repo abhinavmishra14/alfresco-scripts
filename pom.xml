@@ -14,6 +14,7 @@
 		<jackson.databind.version>2.13.4.2</jackson.databind.version>
 		<jackson.annotations.version>2.13.4</jackson.annotations.version>
 		<jackson.core.version>2.13.4</jackson.core.version>
+		<jaxb.api.version>2.3.0</jaxb.api.version>
 		<mainClass>com.github.abhinavmishra14.trashcan.service.test.ClearTrashcan</mainClass>
 	</properties>
 
@@ -33,6 +34,38 @@
 	</developers>
 
 	<dependencies>
+	    <!-- For Postgresql database query and scripting [Start]-->
+		<dependency>
+		  <groupId>org.postgresql</groupId>
+		  <artifactId>postgresql</artifactId>
+		  <version>42.3.8</version>
+		</dependency>
+	 
+	    <dependency>
+		   <groupId>com.zaxxer</groupId>
+		   <artifactId>HikariCP</artifactId>
+		   <version>5.0.1</version>
+		</dependency>
+        <!-- For Postgresql database query and scripting [Start]-->
+	
+		<dependency>
+		  <groupId>javax.xml.bind</groupId>
+		  <artifactId>jaxb-api</artifactId>
+		  <version>${jaxb.api.version}</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.sun.xml.bind</groupId>
+		  <artifactId>jaxb-core</artifactId>
+		  <version>${jaxb.api.version}</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.sun.xml.bind</groupId>
+		  <artifactId>jaxb-impl</artifactId>
+		  <version>${jaxb.api.version}</version>
+		</dependency>
+		
 		<dependency>
 		    <groupId>net.sf.saxon</groupId>
 		    <artifactId>Saxon-HE</artifactId>
@@ -139,12 +172,11 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <version>3.8.0</version>
+			    <configuration>
+			        <release>11</release>  <!--or <release>10</release>-->
+			    </configuration>
 			</plugin>
 			
 			<plugin>

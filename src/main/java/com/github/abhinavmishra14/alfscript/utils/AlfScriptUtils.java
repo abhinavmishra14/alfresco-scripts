@@ -18,6 +18,13 @@
 package com.github.abhinavmishra14.alfscript.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -26,6 +33,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -129,6 +137,28 @@ public final class AlfScriptUtils {
 			LOG.debug("Comparing date older than days, givenDate: "+givenDateTime+" and currentDate: "+currentDateTime);
 		}
 	    return Days.daysBetween(givenDateTime, currentDateTime).isGreaterThan(Days.days(olderThanDays));
+	}
+	
+	/**
+	 * Read file to string.
+	 *
+	 * @param path the path
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public static String readFileToString(final String path) throws IOException {
+		String strContent = StringUtils.EMPTY;
+		final Path filePath = Paths.get(path); 
+		if (Files.isRegularFile(filePath)) {
+			// Open file with read option only to allow for file deletion and
+			// modifications from other programs.
+			try (final InputStream inStream = Files.newInputStream(filePath, StandardOpenOption.READ)) {
+				strContent = IOUtils.toString(inStream, StandardCharsets.UTF_8);
+			}
+		} else {
+			throw new NoSuchFileException(path, StringUtils.EMPTY, "File is unreadable or doesn't exist!");
+		}
+		return strContent;
 	}
 	
 	/**

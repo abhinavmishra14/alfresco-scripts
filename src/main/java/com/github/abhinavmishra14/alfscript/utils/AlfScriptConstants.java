@@ -26,6 +26,12 @@ public final class AlfScriptConstants {
 	public static final String DEFAULT_USER = "admin";
 	public static final String DEFAULT_PASSWORD = "admin";
 	public static final String DEFAULT_HOST = "http://127.0.0.1:8080";
+	
+	public static final String DEFAULT_PGUSER = "alfresco";
+	public static final String DEFAULT_PGPASSWORD = "alfresco";
+	public static final String DEFAULT_PGHOST = "localhost";
+	public static final String DEFAULT_PGPORT = "5432";
+	
 	public static final int DEFAULT_BATCH_SIZE = 1000;
 	
 	//Use -1 for everything 
@@ -50,6 +56,9 @@ public final class AlfScriptConstants {
 	public static final String DEFAULT_TYPE = "cm:content";
 	public static final String DEFAULT_STARTDT = "NOW-2MONTHS";
 	public static final String DEFAULT_ENDDT = "NOW";
+	
+	public static final String CARRIAGE_AND_NEWLINE_REGEX = "\\r|\\n";
+	public static final String COMMA = ",";
 	
 	/**
 	 * The Constructor.

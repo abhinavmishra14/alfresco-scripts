@@ -183,7 +183,10 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 			final String authTicket) throws URISyntaxException,
 			JsonProcessingException, ClientProtocolException, IOException {
 		LOG.info("Deleting archived node: "+archivedNode);
-		final Object[] uriArgs = {serverEndpoint, StringUtils.substringAfter(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)};
+		final String archiveNodeToDelete = StringUtils.contains(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)
+				? StringUtils.substringAfter(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)
+				: archivedNode;
+		final Object[] uriArgs = {serverEndpoint, archiveNodeToDelete};
 		final MessageFormat msgFormat = new MessageFormat(DELETE_ARCHIVED_NODE_URI);
 		final String deleteArcUrl = msgFormat.format(uriArgs);
 		final URIBuilder uriBuilder = new URIBuilder(deleteArcUrl);
