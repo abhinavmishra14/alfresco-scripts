@@ -101,41 +101,36 @@ public class DeleteNodesBasedOnContentUrl {
 		String dbHost = DEFAULT_PGHOST;
 		//Get database host
 		if (args.length >= 5 && StringUtils.isNotBlank(args[4])) {
-			password = args[4].trim();
+			dbHost = args[4].trim();
 		}
 		
 		String dbPort = DEFAULT_PGPORT;
 		//Get database port
 		if (args.length >= 6 && StringUtils.isNotBlank(args[5])) {
-			password = args[5].trim();
+			dbPort = args[5].trim();
 		}
 		
 		String dbUser = DEFAULT_PGUSER;
 		//Get database user
 		if (args.length >= 7 && StringUtils.isNotBlank(args[6])) {
-			password = args[6].trim();
+			dbUser = args[6].trim();
 		}
 		
 		String dbPassword = DEFAULT_PGPASSWORD;
 		//Get database password
 		if (args.length >= 8 && StringUtils.isNotBlank(args[7])) {
-			password = args[7].trim();
+			dbPassword = args[7].trim();
 		}
 		
-		if (StringUtils.isNotBlank(host) && StringUtils.isNotBlank(userName) && StringUtils.isNotBlank(password)
-				&& StringUtils.isNotBlank(contenturlsFilePath) && StringUtils.isNotBlank(dbHost)
-				&& StringUtils.isNotBlank(dbPort) && StringUtils.isNotBlank(dbUser)
-				&& StringUtils.isNotBlank(dbPassword)) {
-			final NodeScriptService nodeScriptService = new NodeScriptServiceImpl(host);
-			final JSONArray nodesInfo = nodeScriptService.getNodesReportForContentUrl(contenturlsFilePath, dbHost, dbPort,
-					dbUser, dbPassword);
-			final File reportsFile = new File("nodesInfo.json");
-			LOG.info("NodesInfoReport written to the file: "+reportsFile);
-			FileUtils.writeStringToFile(reportsFile, nodesInfo.toString(), StandardCharsets.UTF_8);
-			
-			final AuthenticationService authServ = new AuthenticationServiceImpl(host);
-			final String authTicket = authServ.getAuthTicket(userName, password);
-			nodeScriptService.deleteNode(authTicket, nodesInfo);
-		}
+		final NodeScriptService nodeScriptService = new NodeScriptServiceImpl(host);
+		final JSONArray nodesInfo = nodeScriptService.getNodesReportForContentUrl(contenturlsFilePath, dbHost, dbPort,
+				dbUser, dbPassword);
+		final File reportsFile = new File("nodesInfo.json");
+		LOG.info("NodesInfoReport written to the file: "+reportsFile);
+		FileUtils.writeStringToFile(reportsFile, nodesInfo.toString(), StandardCharsets.UTF_8);
+		
+		final AuthenticationService authServ = new AuthenticationServiceImpl(host);
+		final String authTicket = authServ.getAuthTicket(userName, password);
+		nodeScriptService.deleteNode(authTicket, nodesInfo);
 	}
 }

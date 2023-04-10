@@ -64,7 +64,6 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 	/** The Constant NODE_ID. */
 	public static final String NODE_ID = "nodeId";
 
-
 	/** The Constant LOG. */
 	private final static Log LOG = LogFactory.getLog(NodeScriptServiceImpl.class);
 	
