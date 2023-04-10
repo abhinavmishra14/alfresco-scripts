@@ -125,12 +125,16 @@ public class DeleteNodesBasedOnContentUrl {
 		final NodeScriptService nodeScriptService = new NodeScriptServiceImpl(host);
 		final JSONArray nodesInfo = nodeScriptService.getNodesReportForContentUrl(contenturlsFilePath, dbHost, dbPort,
 				dbUser, dbPassword);
-		final File reportsFile = new File("nodesInfo.json");
-		LOG.info("NodesInfoReport written to the file: "+reportsFile);
-		FileUtils.writeStringToFile(reportsFile, nodesInfo.toString(), StandardCharsets.UTF_8);
-		
-		final AuthenticationService authServ = new AuthenticationServiceImpl(host);
-		final String authTicket = authServ.getAuthTicket(userName, password);
-		nodeScriptService.deleteNode(authTicket, nodesInfo);
+		if (nodesInfo.length() > 0) {
+			final File reportsFile = new File("nodesInfo.json");
+			LOG.info("NodesInfoReport written to the file: " + reportsFile);
+			FileUtils.writeStringToFile(reportsFile, nodesInfo.toString(), StandardCharsets.UTF_8);
+
+			final AuthenticationService authServ = new AuthenticationServiceImpl(host);
+			final String authTicket = authServ.getAuthTicket(userName, password);
+			nodeScriptService.deleteNode(authTicket, nodesInfo);
+		} else {
+			LOG.warn("Unable to extract node info using the content urls. Please try different content urls!");
+		}
 	}
 }

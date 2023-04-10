@@ -32,6 +32,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -149,16 +150,17 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					+ "  AND p1.node_id=n.id\r\n"
 					+ "  AND p1.qname_id IN (SELECT id FROM alf_qname WHERE local_name='name')\r\n"
 					+ "  AND u.content_url='%s';", eachContentUrl);
-
+			LOG.info("Executing query: "+selectStmt);
 			resultSet = stmt.executeQuery(selectStmt);
 			while (resultSet.next()) {
 				final String storeId = resultSet.getString("Store ID");
 				final String nodeId = resultSet.getString("Document ID (UUID)");
 				if (VERSION2STORE_ID.equals(storeId)) {
-					//Skip adding version2store info 
+					//Skip populating workspace://version2store info 
 					LOG.info("Skipping version2Store node: "+nodeId);
 					continue;
 				} else {
+					//Populate only workspace://SpaceStore and archive://SpaceStore node info.
 					final JSONObject contentNode = new JSONObject();
 					contentNode.put(NODE_ID, nodeId);
 					contentNode.put("creator", resultSet.getString("Creator"));
@@ -173,8 +175,8 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 				}
 				
 			}
-		} catch (Exception excp) {
-			LOG.error(excp.getClass().getName() + ": " + excp.getMessage(), excp);
+		} catch (SQLException | JSONException excp) {
+			LOG.error(excp.getClass().getName() + " : Failed to get the info info due to: " + excp.getMessage(), excp);
 			System.exit(0);
 		} finally {
 			if (resultSet != null) {
