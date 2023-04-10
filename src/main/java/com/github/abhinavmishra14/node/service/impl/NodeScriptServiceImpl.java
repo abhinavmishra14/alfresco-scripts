@@ -178,14 +178,14 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					//Populate only workspace://SpaceStore and archive://SpaceStore node info.
 					final JSONObject contentNode = new JSONObject();
 					contentNode.put(NODE_ID, nodeId);
-					contentNode.put("Creator", resultSet.getString("Creator"));
-					contentNode.put("CreatedDate", resultSet.getString("Creation Date"));
-					contentNode.put("Modifier", resultSet.getString("Modifier"));
-					contentNode.put("ModifiedDate", resultSet.getString("Modification Date"));
-					contentNode.put("Name", resultSet.getString("Document Name"));
-					contentNode.put("ContentUrl", eachContentUrl);
-					contentNode.put("StoreName", STORE_MAP.get(storeId));
-					contentNode.put("SizeAsMB", resultSet.getString("Size (MB)"));
+					contentNode.put("creator", resultSet.getString("Creator"));
+					contentNode.put("createdDate", resultSet.getString("Creation Date"));
+					contentNode.put("modifier", resultSet.getString("Modifier"));
+					contentNode.put("modifiedDate", resultSet.getString("Modification Date"));
+					contentNode.put("name", resultSet.getString("Document Name"));
+					contentNode.put("contentUrl", eachContentUrl);
+					contentNode.put("storeName", STORE_MAP.get(storeId));
+					contentNode.put("sizeAsMB", resultSet.getString("Size (MB)"));
 					nodesInfo.put(contentNode);
 				}
 				
