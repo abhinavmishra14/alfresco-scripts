@@ -66,9 +66,9 @@ public class DeleteNodesBasedOnContentUrl {
 	 * @throws SQLException the SQL exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(String[] args)
-			throws JsonProcessingException, ClientProtocolException, AlfScriptException, IOException, SQLException,
-			URISyntaxException {
+	public static void main(String[] args) throws JsonProcessingException, ClientProtocolException, AlfScriptException,
+			IOException, SQLException, URISyntaxException {
+		
 		String host = DEFAULT_HOST;
 		//Get the host
 		if (args.length >= 1 && StringUtils.isNotBlank(args[0])) {

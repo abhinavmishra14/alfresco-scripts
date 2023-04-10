@@ -78,3 +78,28 @@ These are commonly used scripts which can be executed from java command line. Th
    - BATCH_SIZE -> Number of items in one batch
 
 
+#  Delete nodes based on given content url (Used database to query nodes based on content urls)
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.node.test.DeleteNodesBasedOnContentUrl [HOST] [USER] [PASSWORD] [CONTENTURLS_TXT_FILE] [DB_HOST] [DB_PORT] [DB_USER] [DB_PASSWORD]
+ ```
+ 
+  #### Delete Nodes Based On ContentUrl parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+   
+   - CONTENTURLS_TXT_FILE -> Filesystem path of a text file containing comma separated content urls in bulk. [See sample text file here](https://github.com/abhinavmishra14/alfresco-scripts/blob/master/samples/contenturls.txt)
+   
+   - DB_HOST -> Is the database host to be used for JDBC URL. e.g.: 127.0.0.1/localhost/dev.postgres.com
+   
+   - DB_PORT -> Is the database port to be used for JDBC URL. e.g.: 5432
+   
+   - DB_USER -> Is the database user name to be used for JDBC URL. e.g.: alfresco
+   
+   - DB_PASSWORD -> Is the database password to be used for JDBC URL. e.g.: alfresco
+  
+

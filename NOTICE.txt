@@ -6,6 +6,8 @@ THIRD PARTY COMPONENTS
 commons-*   http://commons.apache.org/
 jackson-*   http://fasterxml.com
 org.json-*  http://www.JSON.org/
+com.zaxxer-* https://github.com/brettwooldridge/HikariCP
+
  
 ===Eclipse Public License====
 junit-*  http://junit.org/
@@ -13,3 +15,10 @@ junit-*  http://junit.org/
 === Apache 2.0 JodaTime ===
 org.joda.* http://www.joda.org/joda-time/
 
+=== BSD-2-Clause ===
+org.postgresql.* https://jdbc.postgresql.org/
+
+=== GNU General Public License Version 2 only ("GPL") or the Common Development
+    and Distribution License("CDDL") (collectively, the "License") ===
+
+javax.xml-* = https://github.com/javaee/jaxb-spec
