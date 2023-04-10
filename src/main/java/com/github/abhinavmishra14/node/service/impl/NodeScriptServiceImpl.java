@@ -184,6 +184,7 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					contentNode.put("modifiedDate", resultSet.getString("Modification Date"));
 					contentNode.put("name", resultSet.getString("Document Name"));
 					contentNode.put("contentUrl", eachContentUrl);
+					contentNode.put(STORE_ID, storeId);
 					contentNode.put("storeName", STORE_MAP.get(storeId));
 					contentNode.put("sizeAsMB", resultSet.getString("Size (MB)"));
 					nodesInfo.put(contentNode);
