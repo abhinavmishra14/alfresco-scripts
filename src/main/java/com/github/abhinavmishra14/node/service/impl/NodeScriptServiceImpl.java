@@ -150,7 +150,9 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					+ "  AND p1.node_id=n.id\r\n"
 					+ "  AND p1.qname_id IN (SELECT id FROM alf_qname WHERE local_name='name')\r\n"
 					+ "  AND u.content_url='%s';", eachContentUrl);
-			LOG.info("Executing query: "+selectStmt);
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Executing query: " + selectStmt);
+			}
 			resultSet = stmt.executeQuery(selectStmt);
 			while (resultSet.next()) {
 				final String storeId = resultSet.getString("Store ID");
