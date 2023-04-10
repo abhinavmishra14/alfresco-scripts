@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -64,7 +66,18 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 	
 	/** The Constant NODE_ID. */
 	public static final String NODE_ID = "nodeId";
+	
+	/** The Constant STORE_MAP. */
+	public static final Map<String, String> STORE_MAP = new HashMap<String, String>(5) {
+		private static final long serialVersionUID = 1L;
 
+		{
+			put("6", "workspace://SpaceStore");
+			put("5", "archive://SpaceStore");
+			put("4", "workspace://version2Store");
+		}
+	};
+	
 	/** The Constant LOG. */
 	private final static Log LOG = LogFactory.getLog(NodeScriptServiceImpl.class);
 	
@@ -165,14 +178,14 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					//Populate only workspace://SpaceStore and archive://SpaceStore node info.
 					final JSONObject contentNode = new JSONObject();
 					contentNode.put(NODE_ID, nodeId);
-					contentNode.put("creator", resultSet.getString("Creator"));
-					contentNode.put("createdDate", resultSet.getString("Creation Date"));
-					contentNode.put("modifier", resultSet.getString("Modifier"));
-					contentNode.put("modifiedDate", resultSet.getString("Modification Date"));
-					contentNode.put("name", resultSet.getString("Document Name"));
-					contentNode.put("contentUrl", eachContentUrl);
-					contentNode.put(STORE_ID, storeId);
-					contentNode.put("size_mb", resultSet.getString("Size (MB)"));
+					contentNode.put("Creator", resultSet.getString("Creator"));
+					contentNode.put("CreatedDate", resultSet.getString("Creation Date"));
+					contentNode.put("Modifier", resultSet.getString("Modifier"));
+					contentNode.put("ModifiedDate", resultSet.getString("Modification Date"));
+					contentNode.put("Name", resultSet.getString("Document Name"));
+					contentNode.put("ContentUrl", eachContentUrl);
+					contentNode.put("StoreName", STORE_MAP.get(storeId));
+					contentNode.put("SizeAsMB", resultSet.getString("Size (MB)"));
 					nodesInfo.put(contentNode);
 				}
 				
