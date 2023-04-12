@@ -84,8 +84,8 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 		private static final long serialVersionUID = 1L;
 
 		{
-			put(WORKSPACESTORE_ID, "workspace://SpaceStore");
-			put(ARCHIVESTORE_ID, "archive://SpaceStore");
+			put(WORKSPACESTORE_ID, "workspace://SpacesStore");
+			put(ARCHIVESTORE_ID, "archive://SpacesStore");
 			put(VERSION2STORE_ID, "workspace://version2Store");
 		}
 	};
