@@ -20,7 +20,23 @@ package com.github.abhinavmishra14.node.service.impl;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.ARCHIVESTORE_ID;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.CARRIAGE_AND_NEWLINE_REGEX;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.COMMA;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.CONTENTURL;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.CREATEDDATE;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.CREATOR;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_CREATEDDATE;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_CREATOR;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_DOCNAME;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_DOCSIZE;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_DOC_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_MODIFIED_DATE;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_MODIFIER;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.DB_STORE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.MODIFIED_DATE;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.MODIFIER;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NAME;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NODE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.SIZEMB;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.STORE;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.STORE_ID;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.VERSION2STORE_ID;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.WORKSPACESTORE_ID;
@@ -64,7 +80,7 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 	private static final String DELETE_NODE_API = "/alfresco/api/-default-/public/alfresco/versions/1/nodes/%s?permanent=true&alf_ticket=%s";
 	
 	/** The Constant STORE_MAP. */
-	public static final Map<String, String> STORE_MAP = new HashMap<String, String>(5) {
+	private static final Map<String, String> STORE_MAP = new HashMap<String, String>(5) {
 		private static final long serialVersionUID = 1L;
 
 		{
@@ -164,8 +180,8 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 			}
 			resultSet = stmt.executeQuery(selectStmt);
 			while (resultSet.next()) {
-				final String storeId = resultSet.getString("Store ID");
-				final String nodeId = resultSet.getString("Document ID (UUID)");
+				final String storeId = resultSet.getString(DB_STORE_ID);
+				final String nodeId = resultSet.getString(DB_DOC_ID);
 				if (VERSION2STORE_ID.equals(storeId)) {
 					//Skip populating workspace://version2store info 
 					LOG.info("Skipping version2Store node: "+nodeId);
@@ -174,15 +190,15 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					//Populate only workspace://SpaceStore and archive://SpaceStore node info.
 					final JSONObject contentNode = new JSONObject();
 					contentNode.put(NODE_ID, nodeId);
-					contentNode.put("creator", resultSet.getString("Creator"));
-					contentNode.put("createdDate", resultSet.getString("Creation Date"));
-					contentNode.put("modifier", resultSet.getString("Modifier"));
-					contentNode.put("modifiedDate", resultSet.getString("Modification Date"));
-					contentNode.put("name", resultSet.getString("Document Name"));
-					contentNode.put("contentUrl", eachContentUrl);
+					contentNode.put(CREATOR, resultSet.getString(DB_CREATOR));
+					contentNode.put(CREATEDDATE, resultSet.getString(DB_CREATEDDATE));
+					contentNode.put(MODIFIER, resultSet.getString(DB_MODIFIER));
+					contentNode.put(MODIFIED_DATE, resultSet.getString(DB_MODIFIED_DATE));
+					contentNode.put(NAME, resultSet.getString(DB_DOCNAME));
+					contentNode.put(CONTENTURL, eachContentUrl);
 					contentNode.put(STORE_ID, storeId);
-					contentNode.put("storeName", STORE_MAP.get(storeId));
-					contentNode.put("sizeAsMB", resultSet.getString("Size (MB)"));
+					contentNode.put(STORE, STORE_MAP.get(storeId));
+					contentNode.put(SIZEMB, resultSet.getString(DB_DOCSIZE));
 					nodesInfo.put(contentNode);
 				}
 				

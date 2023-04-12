@@ -65,6 +65,24 @@ public final class AlfScriptConstants {
 	public static final String WORKSPACESTORE_ID = "6";
 	public static final String STORE_ID = "storeId";
 	public static final String NODE_ID = "nodeId";
+	public static final String DB_STORE_ID = "Store ID";
+	public static final String DB_DOC_ID = "Document ID (UUID)";
+	public static final String DB_CREATOR = "Creator";
+	public static final String DB_CREATEDDATE = "Creation Date";
+	public static final String DB_MODIFIER = "Modifier";
+	public static final String DB_MODIFIED_DATE = "Modification Date";
+	public static final String DB_DOCNAME = "Document Name";
+	public static final String DB_DOCSIZE = "Size (MB)";
+	public static final String CREATOR = "creator";
+	public static final String CREATEDDATE = "createdDate";
+	public static final String MODIFIER = "modifier";
+	public static final String MODIFIED_DATE = "modifiedDate";
+	public static final String NAME = "name";
+	public static final String CONTENTURL = "contentUrl";
+	public static final String STORE = "storeName";
+	public static final String SIZEMB = "sizeAsMB";
+	
+	
 	
 	/**
 	 * The Constructor.
