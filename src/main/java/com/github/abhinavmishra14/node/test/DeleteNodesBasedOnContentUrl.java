@@ -48,7 +48,8 @@ import com.github.abhinavmishra14.node.service.NodeScriptService;
 import com.github.abhinavmishra14.node.service.impl.NodeScriptServiceImpl;
 
 /**
- * The Class DeleteNodesBasedOnContentUrl.
+ * The Class DeleteNodesBasedOnContentUrl.<br>
+ * DO NOT RUN THIS SCRIPT IN PRODUCTION WITHOUT ANALYSING THE IMPLICATIONS!!
  */
 public class DeleteNodesBasedOnContentUrl {
 	

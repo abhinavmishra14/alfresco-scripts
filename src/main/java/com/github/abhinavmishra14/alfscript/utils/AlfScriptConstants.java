@@ -60,6 +60,12 @@ public final class AlfScriptConstants {
 	public static final String CARRIAGE_AND_NEWLINE_REGEX = "\\r|\\n";
 	public static final String COMMA = ",";
 	
+	public static final String VERSION2STORE_ID = "4";
+	public static final String ARCHIVESTORE_ID = "5";
+	public static final String WORKSPACESTORE_ID = "6";
+	public static final String STORE_ID = "storeId";
+	public static final String NODE_ID = "nodeId";
+	
 	/**
 	 * The Constructor.
 	 */

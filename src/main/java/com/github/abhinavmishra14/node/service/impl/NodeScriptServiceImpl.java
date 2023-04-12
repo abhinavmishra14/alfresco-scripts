@@ -17,6 +17,14 @@
  */
 package com.github.abhinavmishra14.node.service.impl;
 
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.ARCHIVESTORE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.CARRIAGE_AND_NEWLINE_REGEX;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.COMMA;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NODE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.STORE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.VERSION2STORE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.WORKSPACESTORE_ID;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -38,7 +46,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.alfscript.utils.ConnectionManager;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
@@ -47,34 +54,23 @@ import com.github.abhinavmishra14.trashcan.service.ArchiveStoreService;
 import com.github.abhinavmishra14.trashcan.service.impl.ArchiveStoreServiceImpl;
 import com.google.common.collect.Sets;
 
+
 /**
  * The Class NodeScriptServiceImpl.
  */
 public class NodeScriptServiceImpl implements NodeScriptService {
 	
 	/** The Constant DELETE_NODE_API. */
-	public static final String DELETE_NODE_API = "/alfresco/api/-default-/public/alfresco/versions/1/nodes/%s?permanent=true&alf_ticket=%s";
-	
-	/** The Constant VERSION2STORE_ID. */
-	public static final String VERSION2STORE_ID = "4";
-	
-	/** The Constant ARCHIVESTORE_ID. */
-	public static final String ARCHIVESTORE_ID = "5";
-	
-	/** The Constant STORE_ID. */
-	public static final String STORE_ID = "storeId";
-	
-	/** The Constant NODE_ID. */
-	public static final String NODE_ID = "nodeId";
+	private static final String DELETE_NODE_API = "/alfresco/api/-default-/public/alfresco/versions/1/nodes/%s?permanent=true&alf_ticket=%s";
 	
 	/** The Constant STORE_MAP. */
 	public static final Map<String, String> STORE_MAP = new HashMap<String, String>(5) {
 		private static final long serialVersionUID = 1L;
 
 		{
-			put("6", "workspace://SpaceStore");
-			put("5", "archive://SpaceStore");
-			put("4", "workspace://version2Store");
+			put(WORKSPACESTORE_ID, "workspace://SpaceStore");
+			put(ARCHIVESTORE_ID, "archive://SpaceStore");
+			put(VERSION2STORE_ID, "workspace://version2Store");
 		}
 	};
 	
@@ -111,8 +107,8 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 			final String dbUser, final String dbPassword) throws IOException, SQLException {
 		// Read the content urls from input
 		final String[] contentUrls = AlfScriptUtils.readFileToString(inputFilePath)
-				.replaceAll(AlfScriptConstants.CARRIAGE_AND_NEWLINE_REGEX, StringUtils.EMPTY)
-				.split(AlfScriptConstants.COMMA);
+				.replaceAll(CARRIAGE_AND_NEWLINE_REGEX, StringUtils.EMPTY)
+				.split(COMMA);
 		final Set<String> uniqueContentUrls = Sets.newHashSet(contentUrls);
 		LOG.info("Unique ContentUrls Size: " + uniqueContentUrls.size());
 		LOG.info("Unique ContentUrls: "+ uniqueContentUrls);
