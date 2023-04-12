@@ -79,7 +79,6 @@ public final class AlfScriptConstants {
 	public static final String MODIFIED_DATE = "modifiedDate";
 	public static final String NAME = "name";
 	public static final String CONTENTURL = "contentUrl";
-	public static final String STORE = "storeName";
 	public static final String SIZEMB = "sizeAsMB";
 	
 	

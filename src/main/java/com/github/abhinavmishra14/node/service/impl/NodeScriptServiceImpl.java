@@ -35,8 +35,8 @@ import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.MODI
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.MODIFIER;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NAME;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NODE_ID;
+import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.NODE_REF;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.SIZEMB;
-import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.STORE;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.STORE_ID;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.VERSION2STORE_ID;
 import static com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants.WORKSPACESTORE_ID;
@@ -197,7 +197,8 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 					contentNode.put(NAME, resultSet.getString(DB_DOCNAME));
 					contentNode.put(CONTENTURL, eachContentUrl);
 					contentNode.put(STORE_ID, storeId);
-					contentNode.put(STORE, STORE_MAP.get(storeId));
+					final String storeName = STORE_MAP.get(storeId);
+					contentNode.put(NODE_REF, String.format("%s/%s", storeName, nodeId));
 					contentNode.put(SIZEMB, resultSet.getString(DB_DOCSIZE));
 					nodesInfo.put(contentNode);
 				}
