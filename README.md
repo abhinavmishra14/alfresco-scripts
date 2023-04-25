@@ -106,7 +106,7 @@ These are commonly used scripts which can be executed from java command line. Th
 #  Upload files in parallel
 
  ```java
- java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.upload.test.UploadTest [HOST] [USER] [PASSWORD] [SOURCE_FOLDER_PATH] [PARENT_NODEID] [ADDITIONAL_MATADATA]
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.upload.test.UploadTest [HOST] [USER] [PASSWORD] [SOURCE_FILEFOLDER_PATH] [PARENT_NODEID] [ADDITIONAL_MATADATA]
  ```
  
   #### Upload test parameter information:
