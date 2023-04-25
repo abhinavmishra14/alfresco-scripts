@@ -101,5 +101,26 @@ These are commonly used scripts which can be executed from java command line. Th
    - DB_USER -> Is the database user name to be used for JDBC URL. e.g.: alfresco
    
    - DB_PASSWORD -> Is the database password to be used for JDBC URL. e.g.: alfresco
+   
+
+#  Upload files in parallel
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.upload.test.UploadTest [HOST] [USER] [PASSWORD] [SOURCE_FOLDER_PATH] [PARENT_NODEID] [ADDITIONAL_MATADATA]
+ ```
+ 
+  #### Upload test parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+   
+   - SOURCE_FILEFOLDER_PATH -> Folder path which contains multiple files or a single file path. e.g.: C:\Users\Abhinav\Downloads
+   
+   - PARENT_NODEID -> Parent Node Ref ID of the folder where content needs to be uploaded. e.g.: 4cccf037-03e9-49ff-93fe-a65f20bc0ff3
+   
+   - ADDITIONAL_MATADATA -> Any additional metadata properties (comma separated) you want to apply while uploading the content. e.g.: cm:title=SampleTitle,cm:description=sample desc
   
 

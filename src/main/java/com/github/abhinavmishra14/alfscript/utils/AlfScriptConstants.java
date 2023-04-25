@@ -81,7 +81,11 @@ public final class AlfScriptConstants {
 	public static final String CONTENTURL = "contentUrl";
 	public static final String SIZEMB = "sizeAsMB";
 	
+	public static final String EQUALS = "=";
+	public static final String NOW = "now";
 	
+	public static final String FILEDATA = "filedata";
+
 	
 	/**
 	 * The Constructor.

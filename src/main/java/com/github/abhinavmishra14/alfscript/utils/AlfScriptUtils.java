@@ -99,7 +99,7 @@ public final class AlfScriptUtils {
 	 * @return the start time based on units
 	 */
 	public static long getStartTimeBasedOnUnits(final String input) {
-		if ("now".equalsIgnoreCase(input)) {
+		if (AlfScriptConstants.NOW.equalsIgnoreCase(input)) {
 			return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 		} else {
 			final TemporalAmount tempAm = Duration.parse(input);
