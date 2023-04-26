@@ -126,13 +126,27 @@ public class UploadTest {
 		if (inputPath.isDirectory()) {
 			LOG.info("Input is a directory: " + inputPath.getAbsolutePath());
 			final Set<File> setOfFiles = DirectoryTraverser.getFileUris(inputPath);
+			final ExecutorService executer = Executors.newFixedThreadPool(setOfFiles.size() + 1);
 			for (final File eachFile : setOfFiles) {
-				processUploadRequest(uploadServ, authTicket, eachFile, parentNodeId, metadataList, setOfFiles.size());
+				if (eachFile.getName().contains("desktop.ini")) {// Ignore hidden file found usually on windows platform
+					continue;
+				} else {
+					// Process in parallel
+					submitUploadRequests(uploadServ, authTicket, eachFile, parentNodeId, metadataList, executer);
+				}
+			}
+
+			executer.shutdown();
+			try {
+				executer.awaitTermination(1, TimeUnit.HOURS);
+			} catch (InterruptedException excp) {
+				LOG.debug("Thread interrupted: " + excp.getMessage(), excp);
 			}
 		} else {
 			LOG.info("Input is a file: " + inputPath.getAbsolutePath());
-			processUploadRequest(uploadServ, authTicket, inputPath, parentNodeId, metadataList, 1);
+			processUpload(uploadServ, authTicket, inputPath, parentNodeId, metadataList);
 		}
+		
 		timer.endTimer();
 		LOG.info("Total time spent in upload: "+timer.getFormattedTotalTime());
 	}
@@ -145,31 +159,37 @@ public class UploadTest {
 	 * @param fileToUpload the file to upload
 	 * @param parentNode the parent node
 	 * @param metadata the metadata
-	 * @param loadSize the load size
+	 * @param exec the exec
 	 */
-	private static void processUploadRequest(final UploadService uploadServ, final String accessToken,
-			final File fileToUpload, final String parentNode, final List<String> metadata, final int loadSize) {
-		final ExecutorService exec = Executors.newFixedThreadPool(loadSize + 1);
+	private static void submitUploadRequests(final UploadService uploadServ, final String accessToken,
+			final File fileToUpload, final String parentNode, final List<String> metadata, final ExecutorService exec) {
 		exec.submit(new Runnable() {
 			public void run() {
 				//upload file
-				try {
-					final JSONObject uploadResp = uploadServ.uploadFile(fileToUpload, metadata, accessToken,
-							parentNode);
-					LOG.info("Upload Resonse: "+uploadResp);
-				} catch (IOException ioex) {
-					final String errMsg = String.format("Failed to complete upload due to %s", ioex.getMessage());
-					LOG.error(errMsg, ioex);
-					throw new AlfScriptException(errMsg, ioex);
-				}
+				processUpload(uploadServ, accessToken, fileToUpload, parentNode, metadata);
 			}
 		});
-
-		exec.shutdown();
+	}
+	
+	/**
+	 * Process upload.
+	 *
+	 * @param uploadServ the upload serv
+	 * @param accessToken the access token
+	 * @param fileToUpload the file to upload
+	 * @param parentNode the parent node
+	 * @param metadata the metadata
+	 */
+	private static void processUpload(final UploadService uploadServ, final String accessToken,
+			final File fileToUpload, final String parentNode, final List<String> metadata) {
 		try {
-			exec.awaitTermination(1, TimeUnit.HOURS);
-		} catch (InterruptedException excp) {
-			LOG.debug("Thread interrupted: "+excp.getMessage());
+			final JSONObject uploadResp = uploadServ.uploadFile(fileToUpload, metadata, accessToken,
+					parentNode);
+			LOG.info("Upload Resonse: "+uploadResp);
+		} catch (IOException ioex) {
+			final String errMsg = String.format("Failed to complete upload due to %s", ioex.getMessage());
+			LOG.error(errMsg, ioex);
+			throw new AlfScriptException(errMsg, ioex);
 		}
 	}
 }
