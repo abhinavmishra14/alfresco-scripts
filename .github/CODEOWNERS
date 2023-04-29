@@ -1,2 +1,8 @@
+# Global rule
+
+* @abhinavmishra14
+
+#Java and xml/config files rule
+
 *.java  @abhinavmishra14
 *.xml  @abhinavmishra14
