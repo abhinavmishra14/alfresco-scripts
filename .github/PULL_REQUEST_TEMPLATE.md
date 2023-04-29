@@ -4,6 +4,7 @@ Please complete below checklist
 
 - [ ] Bugfix
 - [ ] New Script
+- [ ] Enhancement
 
 ### DESCRIPTION
 
