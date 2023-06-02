@@ -61,7 +61,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.alfscript.utils.ConnectionManager;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
@@ -225,14 +224,13 @@ public class NodeScriptServiceImpl implements NodeScriptService {
 	 *
 	 * @param authTicket the auth ticket
 	 * @param nodeJson the node json
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	@Override
 	public void deleteNode(final String authTicket, final JSONArray nodeJson)
-			throws JsonProcessingException, ClientProtocolException, IOException, URISyntaxException {
+			throws ClientProtocolException, IOException, URISyntaxException {
 		final ArchiveStoreService arcStoreServ = new ArchiveStoreServiceImpl(serverEndpoint);
 		for (final Object eachNode : nodeJson) {
 			final JSONObject jsonForEachNode = (JSONObject) eachNode;

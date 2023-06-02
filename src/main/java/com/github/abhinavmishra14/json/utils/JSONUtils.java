@@ -55,6 +55,9 @@ public final class JSONUtils {
 	/** The Constant EMPTY_JSONOBJECT. */
 	public static final String EMPTY_JSONOBJECT = "{}";
 	
+	/** The Constant JSON_EXTN. */
+	public static final String JSON_EXTN = ".json";
+	
 	/**
 	 * The Constructor.
 	 */

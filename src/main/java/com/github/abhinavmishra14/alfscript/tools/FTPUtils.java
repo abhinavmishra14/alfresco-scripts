@@ -43,7 +43,6 @@ public class FTPUtils {
 	 */
 	public static String uploadDirectoryOrFile(final String host, final int port, final String userName,
 			final String password, final String fromLocalDirOrFile, final String toRemoteDirOrFile) throws IOException {
-
 		final FTPClient ftpClient = new FTPClient();
 		String responseMessage = EMPTY;
 		try {

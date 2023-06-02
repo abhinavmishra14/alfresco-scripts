@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
@@ -68,11 +69,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @param password the password
 	 * @return the auth ticket
 	 * @throws ClientProtocolException the client protocol exception
+	 * @throws JSONException the JSON exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws AlfScriptException the alf script exception
 	 */
 	public String getAuthTicket(final String userName, final String password)
-			throws ClientProtocolException, IOException, AlfScriptException {
+			throws ClientProtocolException, JSONException, IOException, AlfScriptException {
 		LOG.info("Getting auth ticket for user: "+userName);
 		String alfTicket = StringUtils.EMPTY;
 		final Map<String,String> authPayload = new ConcurrentHashMap<String,String>();

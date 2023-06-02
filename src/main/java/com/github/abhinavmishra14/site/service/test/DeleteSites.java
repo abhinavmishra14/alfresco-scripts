@@ -31,7 +31,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.site.service.SiteService;
@@ -53,15 +52,13 @@ public class DeleteSites {
 	 * The main method.
 	 *
 	 * @param args the args
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 * @throws IllegalStateException the illegal state exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(final String args[]) throws JsonProcessingException,
-			ClientProtocolException, UserReportException, IOException,
+	public static void main(final String args[]) throws ClientProtocolException, UserReportException, IOException,
 			IllegalStateException, URISyntaxException {
 		
 		String host = DEFAULT_HOST;

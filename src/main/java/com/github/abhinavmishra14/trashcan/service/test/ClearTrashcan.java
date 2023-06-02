@@ -36,7 +36,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.trashcan.service.ArchiveStoreService;
@@ -54,13 +53,12 @@ public class ClearTrashcan {
 	 * The main method.
 	 *
 	 * @param args the args
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(String[] args) throws JsonProcessingException,
+	public static void main(String[] args) throws
 			ClientProtocolException, AlfScriptException, IOException,
 			URISyntaxException {
 		

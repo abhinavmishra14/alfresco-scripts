@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * The Interface NodeScriptService.
@@ -51,11 +50,10 @@ public interface NodeScriptService {
 	 *
 	 * @param authTicket the auth ticket
 	 * @param nodeJson the node json
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws URISyntaxException the URI syntax exception
 	 */
 	void deleteNode(final String authTicket, final JSONArray nodeJson)
-			throws JsonProcessingException, ClientProtocolException, IOException, URISyntaxException;
+			throws ClientProtocolException, IOException, URISyntaxException;
 }

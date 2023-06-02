@@ -34,7 +34,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.reports.exception.UserReportException;
@@ -54,15 +53,13 @@ public class ClearTrashcanUsingProducerConsumerMethod {
 	 *
 	 * @param args the args
 	 * @throws InterruptedException the interrupted exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(String[] args) throws InterruptedException,
-			JsonProcessingException, ClientProtocolException,
-			AlfScriptException, IOException, URISyntaxException {
+	public static void main(String[] args)
+			throws InterruptedException, ClientProtocolException, AlfScriptException, IOException, URISyntaxException {
 
 		String host = DEFAULT_HOST;
 		// Get the host
@@ -200,14 +197,12 @@ public class ClearTrashcanUsingProducerConsumerMethod {
 		 *
 		 * @throws InterruptedException the interrupted exception
 		 * @throws UserReportException the user report exception
-		 * @throws JsonProcessingException the json processing exception
 		 * @throws ClientProtocolException the client protocol exception
 		 * @throws URISyntaxException the URI syntax exception
 		 * @throws IOException the IO exception
 		 */
-		public void deleteNodes() throws InterruptedException,
-				UserReportException, JsonProcessingException,
-				ClientProtocolException, URISyntaxException, IOException {
+		public void deleteNodes() throws InterruptedException, UserReportException, ClientProtocolException,
+				URISyntaxException, IOException {
 			while (true) {
 				synchronized (this) {
 					while (list.size() == 0) {

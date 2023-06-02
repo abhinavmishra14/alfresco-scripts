@@ -38,7 +38,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
@@ -56,12 +55,11 @@ public class DeleteTags {
 	 * The main method.
 	 *
 	 * @param args the args
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
-	public static void main(String[] args) throws JsonProcessingException,
+	public static void main(String[] args) throws
 			ClientProtocolException, AlfScriptException, IOException {
 		
 		String host = DEFAULT_HOST;

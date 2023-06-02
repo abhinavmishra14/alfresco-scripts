@@ -165,6 +165,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpGetTLS(final String url,
 			final String userName, final String password)
 			throws ClientProtocolException, IOException,
@@ -219,6 +220,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpPostTLS(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException,
@@ -268,6 +270,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpPostTLS(final String url,
 			final String jsonReqData) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
@@ -310,6 +313,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpPostTLS(final String url,
 			final List<NameValuePair> params) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
@@ -351,6 +355,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpPutTLS(final String url,
 			final String jsonReqData) throws ClientProtocolException,
 			IOException, KeyManagementException, NoSuchAlgorithmException {
@@ -403,6 +408,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpPutTLS(final String url,
 			final String jsonReqData, final String userName,
 			final String password) throws ClientProtocolException, IOException,
@@ -446,6 +452,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpDeleteTLS(final String url)
 			throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
@@ -489,6 +496,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	public static CloseableHttpResponse httpDeleteTLS(final String url, final String userName,
 			final String password) throws ClientProtocolException, IOException,
 			KeyManagementException, NoSuchAlgorithmException {
@@ -545,6 +553,7 @@ public final class HTTPUtils {
      * @throws KeyManagementException the key management exception
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
+	@Deprecated
 	private static CloseableHttpClient createNewClientWithTLS() throws KeyManagementException,
 			NoSuchAlgorithmException {
     	final SSLContext sslContext = SSLContexts.custom().useTLS().build();
@@ -563,6 +572,7 @@ public final class HTTPUtils {
 	 * @throws KeyManagementException the key management exception
 	 * @throws NoSuchAlgorithmException the no such algorithm exception
 	 */
+	@Deprecated
 	private static CloseableHttpClient createNewClientWithCredentialsAndTLS(final CredentialsProvider provider)
 			throws KeyManagementException, NoSuchAlgorithmException {
 		final SSLContext sslContext = SSLContexts.custom().useTLS().build();

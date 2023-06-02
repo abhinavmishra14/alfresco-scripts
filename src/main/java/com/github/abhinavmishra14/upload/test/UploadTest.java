@@ -33,7 +33,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.alfscript.utils.DirectoryTraverser;
@@ -54,13 +53,11 @@ public class UploadTest {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public static void main(String[] args)
-			throws JsonProcessingException, ClientProtocolException, AlfScriptException, IOException {
+	public static void main(String[] args) throws ClientProtocolException, AlfScriptException, IOException {
 
 		//Argument example:
 		//http://localhost:8080 admin admin C:\Users\Abhinav\Downloads\TestInfo.json 4cccf037-03e9-49ff-93fe-a65f20bc0ff3 cm:title=SampleTitle,cm:description=sample desc

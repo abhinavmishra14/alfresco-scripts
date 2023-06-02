@@ -32,9 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.abhinavmishra14.auth.service.AuthenticationService;
-import com.github.abhinavmishra14.auth.service.impl.AuthenticationServiceImpl;
+import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.reports.exception.UserReportException;
 import com.github.abhinavmishra14.reports.impl.UserReportServiceImpl;
 import com.github.abhinavmishra14.reports.service.UserReportService;
@@ -51,14 +49,13 @@ public class GenerateUserReport {
 	 * The main method.
 	 *
 	 * @param args the args
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws UserReportException the user report exception
 	 * @throws IOException the IO exception
 	 * @throws IllegalStateException the illegal state exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(String args[]) throws JsonProcessingException,
+	public static void main(String args[]) throws
 			ClientProtocolException, UserReportException, IOException,
 			IllegalStateException, URISyntaxException {
 		LOG.info("Generating user report..");
@@ -79,9 +76,8 @@ public class GenerateUserReport {
 			password = args[2].trim();
 		}
 		LOG.info("Generating user report at host: "+host);	
-		final AuthenticationService authServ = new AuthenticationServiceImpl(host);
+		final String authTicket = AlfScriptUtils.getTicket(host, userName, password);
 		final UserReportService userRpServ = new UserReportServiceImpl(host);
-		final String authTicket = authServ.getAuthTicket(userName, password);
 		final String allUsers = userRpServ.getAllUsersAsJson(authTicket);
 		final File reportsFile = new File("userReports.json");
 		FileUtils.writeStringToFile(reportsFile, allUsers, StandardCharsets.UTF_8); 

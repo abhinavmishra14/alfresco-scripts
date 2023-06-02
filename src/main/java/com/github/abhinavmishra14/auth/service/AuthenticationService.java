@@ -20,8 +20,8 @@ package com.github.abhinavmishra14.auth.service;
 import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 
 /**
@@ -35,11 +35,11 @@ public interface AuthenticationService {
 	 * @param userName the user name
 	 * @param password the password
 	 * @return the auth ticket
-	 * @throws JsonProcessingException the json processing exception
+	 * @throws JSONException the JSON exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws AlfScriptException the alf script exception
 	 */
 	String getAuthTicket(final String userName, final String password)
-			throws JsonProcessingException, ClientProtocolException, IOException, AlfScriptException;
+			throws JSONException, ClientProtocolException, IOException, AlfScriptException;
 }

@@ -124,3 +124,64 @@ These are commonly used scripts which can be executed from java command line. Th
    - ADDITIONAL_MATADATA -> Any additional metadata properties (comma separated) you want to apply while uploading the content. e.g.: cm:title=SampleTitle,cm:description=sample desc
   
 
+#  Download Content
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.download.DownloadTest [HOST] [USER] [PASSWORD] [JSON_INPUT_OF_FILENAME_TO_NODEREF_MAPPING] [DOWNLOAD_LOCATION]
+ ```
+ 
+  #### Download Content parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+   
+   - JSON_INPUT_OF_FILENAME_TO_NODEREF_MAPPING -> A json input file that contains filename to nodeRef mapping. e.g. {"testImage.jpg": "workspace://SpacesStore/28626a0b-aeb8-44f2-bac3-0cbe41812f2c","testPdf.pdf": "workspace://SpacesStore/be8a752d-a24c-447e-866b-67948d01f25b"}
+   
+   - DOWNLOAD_LOCATION -> A location on disk where content to be downloaded: C:\Users\Abhinav\Downloads
+    
+
+#  Download Content In Parallel
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.download.ParallelDownloadTest [HOST] [USER] [PASSWORD] [JSON_INPUT_OF_FILENAME_TO_NODEREF_MAPPING] [DOWNLOAD_LOCATION]
+ ```
+ 
+  #### Download Content in parallel parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+   
+   - JSON_INPUT_OF_FILENAME_TO_NODEREF_MAPPING -> A json input file that contains filename to nodeRef mapping. e.g. {"testImage.jpg": "workspace://SpacesStore/28626a0b-aeb8-44f2-bac3-0cbe41812f2c","testPdf.pdf": "workspace://SpacesStore/be8a752d-a24c-447e-866b-67948d01f25b"}
+   
+   - DOWNLOAD_LOCATION -> A location on disk where content to be downloaded: C:\Users\Abhinav\Downloads
+
+   
+#  Search and Download Content + Metadata
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.download.SNDContentAndMetadataTest [HOST] [USER] [PASSWORD] [DOWNLOAD_LOCATION] [SEARCH_QUERY] [MAX_ITEMS] [SKIP_COUNT]
+ ```
+ 
+  #### Search and Download Content + Metadata parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+      
+   - DOWNLOAD_LOCATION -> A location on disk where content and metadata to be downloaded: C:\Users\Abhinav\Downloads
+   
+   - SEARCH_QUERY -> A alfresco full text search query to search the repository. Make sure to pass the query in "" in case there are spaces between AND/OR queries when passing from command line as shown in the example. e.g.: "PATH:'/app:company_home/st:sites/cm:test-site/cm:documentLibrary//*' AND TYPE:'cm:content'". 
+                    
+   - MAX_ITEMS -> Maximum number of items to fetch from search. e.g.: 1000. Defaults to 100.
+   
+   - SKIP_COUNT -> Number of items to skip from search. e.g.: 0. Defaults to 0.
+   
+   

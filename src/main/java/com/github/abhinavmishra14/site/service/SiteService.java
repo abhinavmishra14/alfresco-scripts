@@ -24,7 +24,6 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 
 /**
@@ -38,12 +37,11 @@ public interface SiteService {
 	 * @param shortName the short name
 	 * @param authTicket the auth ticket
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
 	void deleteSite(final String shortName, final String authTicket)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException,
 			ClientProtocolException, IOException;
 	
 	/**
@@ -51,14 +49,13 @@ public interface SiteService {
 	 *
 	 * @param authTicket the auth ticket
 	 * @return the site short name list
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
 	List<String> getSiteShortNameList(final String authTicket)
-			throws JsonProcessingException, ClientProtocolException,
+			throws ClientProtocolException,
 			AlfScriptException, URISyntaxException, IOException;
 	
 	/**
@@ -67,13 +64,12 @@ public interface SiteService {
 	 * @param authTicket the auth ticket
 	 * @return the all sites
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	JSONArray getAllSites(final String authTicket)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
 	
 	/**
@@ -83,13 +79,12 @@ public interface SiteService {
 	 * @param userName the user name
 	 * @return the all sites
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	JSONArray getAllSites(final String authTicket, final String userName)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
 	
 	
@@ -99,13 +94,12 @@ public interface SiteService {
 	 * @param authTicket the auth ticket
 	 * @return the all sites as string
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	String getAllSitesAsString(final String authTicket)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
 	
 	
@@ -116,12 +110,11 @@ public interface SiteService {
 	 * @param userName the user name
 	 * @return the all sites as string
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	String getAllSitesAsString(final String authTicket, final String userName)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
 }

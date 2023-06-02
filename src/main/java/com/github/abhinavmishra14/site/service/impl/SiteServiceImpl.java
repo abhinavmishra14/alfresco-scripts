@@ -35,7 +35,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
@@ -74,12 +73,11 @@ public class SiteServiceImpl implements SiteService{
 	 * @param shortName the short name
 	 * @param authTicket the auth ticket
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
 	public void deleteSite(final String shortName, final String authTicket)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException,
 			ClientProtocolException, IOException {
 		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint + SITES_URL + AlfScriptConstants.PATH_SEPERATOR + shortName);
 		uriBuilder.addParameter(AlfScriptConstants.PARAM_AUTH_TICKET, authTicket);
@@ -95,15 +93,13 @@ public class SiteServiceImpl implements SiteService{
 	 *
 	 * @param authTicket the auth ticket
 	 * @return the site short name list
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
-	public List<String> getSiteShortNameList(final String authTicket) throws JsonProcessingException,
-			ClientProtocolException, AlfScriptException, URISyntaxException,
-			IOException {
+	public List<String> getSiteShortNameList(final String authTicket)
+			throws ClientProtocolException, AlfScriptException, URISyntaxException, IOException {
 		final JSONArray sites = getAllSites(authTicket);
 		final List<String> allSiteShortNames = new ArrayList<String> ();
 		for (int each = 0; each <sites.length(); each++) {
@@ -121,14 +117,12 @@ public class SiteServiceImpl implements SiteService{
 	 * @param authTicket the auth ticket
 	 * @return the all sites
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
-	public JSONArray getAllSites(final String authTicket) throws URISyntaxException,
-			JsonProcessingException, ClientProtocolException,
-			AlfScriptException, IOException {
+	public JSONArray getAllSites(final String authTicket)
+			throws URISyntaxException, ClientProtocolException, AlfScriptException, IOException {
 		return new JSONArray(getAllSitesAsString(authTicket));
 	}
 
@@ -139,15 +133,13 @@ public class SiteServiceImpl implements SiteService{
 	 * @param userName the user name
 	 * @return the all sites
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	@Override
 	public JSONArray getAllSites(final String authTicket, final String userName)
-			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, AlfScriptException, IOException {
+			throws URISyntaxException, ClientProtocolException, AlfScriptException, IOException {
 		return new JSONArray(getAllSitesAsString(authTicket, userName));
 	}
 
@@ -157,14 +149,13 @@ public class SiteServiceImpl implements SiteService{
 	 * @param authTicket the auth ticket
 	 * @return the all sites as string
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	@Override
 	public String getAllSitesAsString(final String authTicket)
-			throws URISyntaxException, JsonProcessingException,
+			throws URISyntaxException,
 			ClientProtocolException, AlfScriptException, IOException {
 		LOG.info("Getting all sites..");
 		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint + SITES_URL);
@@ -190,15 +181,13 @@ public class SiteServiceImpl implements SiteService{
 	 * @param userName the user name
 	 * @return the all sites as string
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
 	@Override
 	public String getAllSitesAsString(final String authTicket, final String userName)
-			throws URISyntaxException, JsonProcessingException,
-			ClientProtocolException, AlfScriptException, IOException {
+			throws URISyntaxException, ClientProtocolException, AlfScriptException, IOException {
 		LOG.info("Getting all sites for user: "+userName);
 		final Object[] uriArgs = {userName};
 		final MessageFormat msgFormat = new MessageFormat(SITES_BY_PERSON_URL);

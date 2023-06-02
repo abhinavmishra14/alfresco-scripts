@@ -40,9 +40,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.abhinavmishra14.auth.service.AuthenticationService;
-import com.github.abhinavmishra14.auth.service.impl.AuthenticationServiceImpl;
+import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.node.service.NodeScriptService;
 import com.github.abhinavmishra14.node.service.impl.NodeScriptServiceImpl;
@@ -60,14 +58,13 @@ public class DeleteNodesBasedOnContentUrl {
 	 * The main method.
 	 *
 	 * @param args the arguments
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws SQLException the SQL exception
 	 * @throws URISyntaxException the URI syntax exception
 	 */
-	public static void main(String[] args) throws JsonProcessingException, ClientProtocolException, AlfScriptException,
+	public static void main(String[] args) throws ClientProtocolException, AlfScriptException,
 			IOException, SQLException, URISyntaxException {
 		
 		String host = DEFAULT_HOST;
@@ -131,8 +128,7 @@ public class DeleteNodesBasedOnContentUrl {
 			LOG.info("NodesInfoReport written to the file: " + reportsFile);
 			FileUtils.writeStringToFile(reportsFile, nodesInfo.toString(), StandardCharsets.UTF_8);
 
-			final AuthenticationService authServ = new AuthenticationServiceImpl(host);
-			final String authTicket = authServ.getAuthTicket(userName, password);
+			final String authTicket = AlfScriptUtils.getTicket(host, userName, password);
 			nodeScriptService.deleteNode(authTicket, nodesInfo);
 		} else {
 			LOG.warn("Unable to extract node info using the content urls. Please try different content urls!");

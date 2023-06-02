@@ -17,6 +17,8 @@
  */
 package com.github.abhinavmishra14.alfscript.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -33,6 +35,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -40,11 +43,15 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.ClientProtocolException;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.json.JSONException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.auth.service.AuthenticationService;
 import com.github.abhinavmishra14.auth.service.impl.AuthenticationServiceImpl;
+import com.github.abhinavmishra14.download.pojo.BasicSearchPayload;
+import com.github.abhinavmishra14.download.pojo.Paging;
+import com.github.abhinavmishra14.download.pojo.Query;
 import com.github.abhinavmishra14.exception.AlfScriptException;
+import com.github.abhinavmishra14.json.utils.JSONUtils;
 
 /**
  * The Class AlfScriptUtils.
@@ -53,6 +60,85 @@ public final class AlfScriptUtils {
 	
 	/** The Constant LOG. */
 	private final static Log LOG = LogFactory.getLog(AlfScriptUtils.class);
+	
+	/**
+	 * Gets the search payload.
+	 *
+	 * @param searchQ the search Q
+	 * @param maxItems the max items
+	 * @param skipCount the skip count
+	 * @return the search payload
+	 */
+	public static String getSearchPayload(final String searchQ, final String maxItems, final String skipCount) {
+		//Example payload:
+		/*
+		 * {
+			  "query" : {
+			    "query" : "PATH:'/app:company_home/st:sites/cm:test-site/cm:documentLibrary//*' AND TYPE:'cm:content'",
+			    "language" : "afts"
+			  },
+			  "paging" : {
+			    "maxItems" : "1000",
+			    "skipCount" : "0"
+			  }
+			}
+		 */
+		final BasicSearchPayload searchPayload = new BasicSearchPayload();
+		final Query query = new Query();
+		query.setQuery(searchQ);
+		query.setLanguage(AlfScriptConstants.SEARCH_LANG);
+		searchPayload.setQuery(query);
+		
+		final Paging paging = new Paging();
+		paging.setMaxItems(maxItems);
+		paging.setSkipCount(skipCount);
+		searchPayload.setPaging(paging);
+		return JSONUtils.convertFromJsonObjectToString(searchPayload);
+	}
+	
+	/**
+	 * Copy input stream to file.<br>
+	 * After copy it will flush the output stream and closes it. It will also close the source inputStream after copy
+	 *
+	 * @param source the source
+	 * @param destination the destination
+	 * @throws IOException the IO exception
+	 */
+	public static void copyInputStreamToFile(final InputStream source,
+			final File destination) throws IOException {
+		try {
+			try (final FileOutputStream output = FileUtils.openOutputStream(destination);) {
+				IOUtils.copy(source, output);
+				try {
+					if (output != null) {
+						output.flush();
+						output.close();
+					}
+				} catch (IOException ioexIgnore) {
+					LOG.warn("[Ignore] Failed to close the output stream", ioexIgnore);
+				}
+			}
+		} finally {
+			try {
+				if (source != null) {
+					source.close();
+				}
+			} catch (IOException ioexIgnore) {
+				LOG.warn("[Ignore] Failed to close the source stream", ioexIgnore);
+			}
+		}
+	}
+	
+	/**
+	 * Gets the file name.
+	 *
+	 * @param fileName the file name
+	 * @param downloadPath the download path
+	 * @return the file name
+	 */
+	public static String getFileName(final String fileName, final String downloadPath) {
+		return StringUtils.stripEnd(downloadPath, File.separator) + "/" + fileName;
+	}
 	
 	/**
 	 * Sub string using pattern.
@@ -78,13 +164,12 @@ public final class AlfScriptUtils {
 	 * @param userName the user name
 	 * @param password the password
 	 * @return the ticket
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 * @throws AlfScriptException the alf script exception
 	 */
 	public static String getTicket(final String host, final String userName,
-			final String password) throws JsonProcessingException,
+			final String password) throws JSONException,
 			ClientProtocolException, IOException, AlfScriptException {
 		final AuthenticationService authServ = new AuthenticationServiceImpl(host);
 		return authServ.getAuthTicket(userName, password);

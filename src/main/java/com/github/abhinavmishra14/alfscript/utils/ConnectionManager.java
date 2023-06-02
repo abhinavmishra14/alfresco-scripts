@@ -91,6 +91,7 @@ public class ConnectionManager {
 				initialize(dbHost, dbPort, dbUser, dbPassword);
 			}
 			connection = hikariDs.getConnection();
+			
 			if (connection == null) {
 				throw new AlfScriptException("Maximum number of connections has been utilized from pool. Connection will be issues once available!");
 			}

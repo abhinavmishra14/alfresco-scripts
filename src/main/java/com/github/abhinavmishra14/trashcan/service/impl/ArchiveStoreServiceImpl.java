@@ -35,7 +35,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptUtils;
 import com.github.abhinavmishra14.exception.AlfScriptException;
@@ -175,13 +174,12 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @param archivedNode the archived node
 	 * @param authTicket the auth ticket
 	 * @throws URISyntaxException the URI syntax exception
-	 * @throws JsonProcessingException the json processing exception
 	 * @throws ClientProtocolException the client protocol exception
-	 * @throws IOException the IO exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void deleteArchivedNode(final String archivedNode,
 			final String authTicket) throws URISyntaxException,
-			JsonProcessingException, ClientProtocolException, IOException {
+			ClientProtocolException, IOException {
 		LOG.info("Deleting archived node: "+archivedNode);
 		final String archiveNodeToDelete = StringUtils.contains(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)
 				? StringUtils.substringAfter(archivedNode, AlfScriptConstants.ARCHIVE_STOREREF)
