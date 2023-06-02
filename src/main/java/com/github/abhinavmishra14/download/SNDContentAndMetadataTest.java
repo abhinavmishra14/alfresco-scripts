@@ -107,7 +107,7 @@ public class SNDContentAndMetadataTest {
 			maxItems = args[5].trim();
 		}
 		
-		String skipCount = AlfScriptConstants.SKIP_COUNT;
+		String skipCount = AlfScriptConstants.DEFAULT_SKIP_COUNT;
 		if (args.length >= 7 && StringUtils.isNotBlank(args[6])) {
 			skipCount = args[6].trim();
 		}

@@ -90,7 +90,6 @@ public final class AlfScriptConstants {
 	
 	public static final String SEARCH_LANG = "afts";
 	public static final String MAX_ITEMS = "100";
-	public static final String SKIP_COUNT = "0";
 	public static final String DOT = ".";
 	public static final String LIST = "list";
 	public static final String ENTRIES = "entries";

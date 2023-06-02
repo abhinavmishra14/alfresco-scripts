@@ -48,13 +48,13 @@ public class SNDServiceImpl implements SNDService {
 	private final static Log LOG = LogFactory.getLog(SNDServiceImpl.class);
 	
 	/** The Constant SEARCH_URI. */
-	public static final String SEARCH_URI = "%s/alfresco/api/-default-/public/search/versions/1/search?alf_ticket=%s";
+	private static final String SEARCH_URI = "%s/alfresco/api/-default-/public/search/versions/1/search?alf_ticket=%s";
 	
 	/** The Constant METADATA_URI. */
-	public static final String METADATA_URI = "%s/alfresco/service/api/metadata?nodeRef=workspace://SpacesStore/%s&alf_ticket=%s";
+	private static final String METADATA_URI = "%s/alfresco/service/api/metadata?nodeRef=workspace://SpacesStore/%s&alf_ticket=%s";
 	
 	/** The Constant DOWNLOAD_API_URI. */
-	public static final String DOWNLOAD_API_URI = "{0}/alfresco/service/api/node/workspace/SpacesStore/{1}/content/{2}?c=force&alf_ticket={3}";
+	private static final String DOWNLOAD_API_URI = "{0}/alfresco/service/api/node/workspace/SpacesStore/{1}/content/{2}?c=force&alf_ticket={3}";
 	
 	/** The server endpoint. */
 	private final String serverEndpoint;
