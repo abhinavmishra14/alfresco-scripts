@@ -122,18 +122,18 @@ public class SNDContentAndMetadataTest {
 			final JSONObject searchResult = sndServ.getSearchResult(alfTicket, searchQuery, maxItems, skipCount);
 			
 			final JSONObject listResult = searchResult.getJSONObject(AlfScriptConstants.LIST);
+			final JSONObject page = listResult.getJSONObject(AlfScriptConstants.PAGINATION);
+			LOG.info("Search result details: "+ page);
 			final JSONArray entries = listResult.getJSONArray(AlfScriptConstants.ENTRIES);
 			for (final Object eachEntry : entries) {
 				final JSONObject entryJson = (JSONObject) eachEntry;
 				final JSONObject entry = entryJson.getJSONObject(AlfScriptConstants.ENTRY);
 				final String nodeId = entry.getString(AlfScriptConstants.ID_NODE);
 				final String fileName = entry.getString(AlfScriptConstants.NAME);
-				
 				final boolean isMetaDownloaded = sndServ.downloadMetadata(nodeId, downloadLocation,
 						StringUtils.substringBeforeLast(fileName, AlfScriptConstants.DOT) + JSONUtils.JSON_EXTN,
 						alfTicket);
 				LOG.info("Has metadata downloaded?: " + isMetaDownloaded);
-				
 				final boolean isContentDownloaded = sndServ.processDownloadRequest(downloadLocation, alfTicket, fileName, nodeId);
 				LOG.info("Has content downloaded?: "+isContentDownloaded);
 			}
