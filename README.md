@@ -22,7 +22,7 @@ These are commonly used scripts which can be executed from java command line. Th
    
  
 
-# Generate User report along with user groups.
+# Generate User report along with user groups as JSON.
 
 #### OOTB Alfresco doesn't have direct API to do get all users along with their groups at once. Though you can get user profile of a particular user along with group. This report also includes information of all the sites which the user has access. Report is generated as a json. See the sample report here: samples/userReports.json
  
@@ -184,4 +184,26 @@ These are commonly used scripts which can be executed from java command line. Th
    
    - SKIP_COUNT -> Number of items to skip from search. e.g.: 0. Defaults to 0.
    
+
+#  Search and Download Metadata Report as JSON
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.reports.test.SearchAndGenerateMetadataReport [HOST] [USER] [PASSWORD] [DOWNLOAD_LOCATION] [SEARCH_QUERY] [MAX_ITEMS] [SKIP_COUNT]
+ ```
+ 
+  #### Search and Download Metadata report parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+      
+   - DOWNLOAD_LOCATION -> A location on disk where content and metadata to be downloaded: C:\Users\Abhinav\Downloads
+   
+   - SEARCH_QUERY -> A alfresco full text search query to search the repository. Make sure to pass the query in "" in case there are spaces between AND/OR queries when passing from command line as shown in the example. e.g.: "PATH:'/app:company_home/st:sites/cm:test-site/cm:documentLibrary//*' AND TYPE:'cm:content'". 
+                    
+   - MAX_ITEMS -> Maximum number of items to fetch from search. e.g.: 1000. Defaults to 100.
+   
+   - SKIP_COUNT -> Number of items to skip from search. e.g.: 0. Defaults to 0.
    

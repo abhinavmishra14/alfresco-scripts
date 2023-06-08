@@ -96,6 +96,8 @@ public final class AlfScriptConstants {
 	public static final String ENTRY = "entry";
 	public static final String ID_NODE = "id";
 	public static final String PAGINATION = "pagination";
+	public static final String PROPS = "properties";
+	public static final String ASPECTS = "aspectNames";
 	
 	/**
 	 * The Constructor.

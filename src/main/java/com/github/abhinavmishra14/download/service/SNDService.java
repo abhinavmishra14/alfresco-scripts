@@ -60,4 +60,12 @@ public interface SNDService {
 	boolean downloadMetadata(final String nodeId, final String downloadPath, final String fileName,
 			final String alfTicket);
 
+	/**
+	 * Gets the metadata.
+	 *
+	 * @param nodeId the node id
+	 * @param alfTicket the alf ticket
+	 * @return the metadata
+	 */
+	JSONObject getMetadata(final String nodeId,	final String alfTicket);
 }

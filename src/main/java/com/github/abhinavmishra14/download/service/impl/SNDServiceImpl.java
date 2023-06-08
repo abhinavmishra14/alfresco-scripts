@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +54,9 @@ public class SNDServiceImpl implements SNDService {
 	
 	/** The Constant METADATA_URI. */
 	private static final String METADATA_URI = "%s/alfresco/service/api/metadata?nodeRef=workspace://SpacesStore/%s&alf_ticket=%s";
+	
+	/** The Constant METADATA_V1_URI. */
+	private static final String METADATA_V1_URI = "%s/alfresco/api/-default-/public/alfresco/versions/1/nodes/%s?alf_ticket=%s";
 	
 	/** The Constant DOWNLOAD_API_URI. */
 	private static final String DOWNLOAD_API_URI = "{0}/alfresco/service/api/node/workspace/SpacesStore/{1}/content/{2}?c=force&alf_ticket={3}";
@@ -207,5 +212,52 @@ public class SNDServiceImpl implements SNDService {
 			LOG.error("Failed to download the metadata from: "+metaDownUrl, excp);
 		}
 		return isMetaDownloaded;
+	}
+	
+	/**
+	 * Gets the metadata.
+	 *
+	 * @param nodeId    the node id
+	 * @param alfTicket the alf ticket
+	 * @return the metadata
+	 */
+	@Override
+	public JSONObject getMetadata(final String nodeId, final String alfTicket) {
+		JSONObject desiredMetadata = null;
+		final String metaDownUrl = String.format(METADATA_V1_URI, serverEndpoint, nodeId, alfTicket);
+		try {
+			final HttpResponse httpResp = HTTPUtils.httpGet(metaDownUrl);
+			final StatusLine status = httpResp.getStatusLine();
+			final int statusCode = status.getStatusCode();
+			final String statusMsg = status.getReasonPhrase();
+			LOG.info("Status: " + statusCode + " | " + statusMsg);
+			if (statusCode == HTTPUtils.HTTP_CODE_200) {
+				final String resonseStr = IOUtils.toString(httpResp.getEntity().getContent(), StandardCharsets.UTF_8);
+				final JSONObject metadata = new JSONObject(resonseStr);
+				desiredMetadata = metadata.getJSONObject(AlfScriptConstants.ENTRY);
+				final JSONObject props = desiredMetadata.getJSONObject(AlfScriptConstants.PROPS);
+				final Set<String> propsKeys = props.keySet();
+				for (final String eachPropKey : propsKeys) {
+					final Object propJson = props.get(eachPropKey);
+					if (propJson instanceof JSONArray) {
+						final JSONArray propJsonArry = (JSONArray) propJson;
+						props.put(eachPropKey, StringUtils.join(propJsonArry.toList(), AlfScriptConstants.COMMA));
+					} else {
+						continue;
+					}
+				}
+				if (desiredMetadata.has(AlfScriptConstants.ASPECTS)
+						&& desiredMetadata.get(AlfScriptConstants.ASPECTS) instanceof JSONArray) {
+					desiredMetadata.put(AlfScriptConstants.ASPECTS,
+							StringUtils.join(desiredMetadata.getJSONArray(AlfScriptConstants.ASPECTS).toList(),
+									AlfScriptConstants.COMMA));
+				}
+			} else {
+				throw new AlfScriptException(statusMsg);
+			}
+		} catch (IOException excp) {
+			LOG.error("Failed to download the metadata from: " + metaDownUrl, excp);
+		}
+		return desiredMetadata;
 	}
 }
