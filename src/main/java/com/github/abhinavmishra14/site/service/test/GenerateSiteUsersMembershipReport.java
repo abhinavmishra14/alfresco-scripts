@@ -100,6 +100,9 @@ public class GenerateSiteUsersMembershipReport {
 			final File reportsFile = new File("siteUsersMembershipReport.json");
 			FileUtils.writeStringToFile(reportsFile, siteMembership, StandardCharsets.UTF_8);
 			LOG.info("Site Users Membership Report generated successfully.");
+		} else {
+			throw new IllegalArgumentException(
+					"Please check if you have provided the parameters required for site user membership report. \n GenerateSiteUsersMembershipReport generation command: java com.github.abhinavmishra14.site.service.test.GenerateSiteUsersMembershipReport <host> <user> <password> <siteShortName>");
 		}
 	}
 }
