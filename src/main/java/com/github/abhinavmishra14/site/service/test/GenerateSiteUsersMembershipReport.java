@@ -102,7 +102,7 @@ public class GenerateSiteUsersMembershipReport {
 			LOG.info("Site Users Membership Report generated successfully.");
 		} else {
 			throw new IllegalArgumentException(
-					"Please check if you have provided the parameters required for site user membership report. \n GenerateSiteUsersMembershipReport generation command: java com.github.abhinavmishra14.site.service.test.GenerateSiteUsersMembershipReport <host> <user> <password> <siteShortName>");
+					"Please check if you have provided the parameters required for site user membership report. \n GenerateSiteUsersMembershipReport command: java com.github.abhinavmishra14.site.service.test.GenerateSiteUsersMembershipReport <host> <user> <password> <siteShortName>");
 		}
 	}
 }
