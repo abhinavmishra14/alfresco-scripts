@@ -55,6 +55,9 @@ public final class JSONUtils {
 	/** The Constant EMPTY_JSONOBJECT. */
 	public static final String EMPTY_JSONOBJECT = "{}";
 	
+	/** The Constant EMPTY_JSONARRAY. */
+	public static final String EMPTY_JSONARRAY = "[]";
+	
 	/** The Constant JSON_EXTN. */
 	public static final String JSON_EXTN = ".json";
 	

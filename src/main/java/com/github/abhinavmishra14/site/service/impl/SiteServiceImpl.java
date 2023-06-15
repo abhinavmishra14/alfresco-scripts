@@ -38,12 +38,15 @@ import org.json.JSONObject;
 import com.github.abhinavmishra14.alfscript.utils.AlfScriptConstants;
 import com.github.abhinavmishra14.exception.AlfScriptException;
 import com.github.abhinavmishra14.http.utils.HTTPUtils;
+import com.github.abhinavmishra14.json.utils.JSONUtils;
+import com.github.abhinavmishra14.reports.impl.UserReportServiceImpl;
+import com.github.abhinavmishra14.reports.service.UserReportService;
 import com.github.abhinavmishra14.site.service.SiteService;
 
 /**
  * The Class SiteServiceImpl.
  */
-public class SiteServiceImpl implements SiteService{
+public class SiteServiceImpl implements SiteService {
 	
 	/** The Constant LOG. */
 	private final static Log LOG = LogFactory.getLog(SiteServiceImpl.class);
@@ -53,6 +56,9 @@ public class SiteServiceImpl implements SiteService{
 	
 	/** The Constant SITES_BY_PERSON_URL. */
 	private static final String SITES_BY_PERSON_URL = "/alfresco/service/api/people/{0}/sites?roles=user";
+	
+	/** The Constant SITE_MEMBERSHIP_URI. */
+	private static final String SITE_MEMBERSHIP_URI = "%s/alfresco/s/api/sites/%s/memberships?authorityType=USER&alf_ticket=%s";
 	
 	/** The server endpoint. */
 	private final String serverEndpoint;
@@ -76,6 +82,7 @@ public class SiteServiceImpl implements SiteService{
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public void deleteSite(final String shortName, final String authTicket)
 			throws URISyntaxException,
 			ClientProtocolException, IOException {
@@ -98,6 +105,7 @@ public class SiteServiceImpl implements SiteService{
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public List<String> getSiteShortNameList(final String authTicket)
 			throws ClientProtocolException, AlfScriptException, URISyntaxException, IOException {
 		final JSONArray sites = getAllSites(authTicket);
@@ -121,6 +129,7 @@ public class SiteServiceImpl implements SiteService{
 	 * @throws AlfScriptException the alf script exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public JSONArray getAllSites(final String authTicket)
 			throws URISyntaxException, ClientProtocolException, AlfScriptException, IOException {
 		return new JSONArray(getAllSitesAsString(authTicket));
@@ -205,5 +214,53 @@ public class SiteServiceImpl implements SiteService{
 			throw new AlfScriptException(statusMsg);
 		}
 		return sites;
+	}
+	
+	/**
+	 * Gets the site membership person info.
+	 *
+	 * @param siteShortName the site short name
+	 * @param authTicket the auth ticket
+	 * @return the site membership
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 */
+	@Override
+	public String getSiteMembershipPersonInfo(final String siteShortName, final String authTicket)
+			throws ClientProtocolException, AlfScriptException, IOException, URISyntaxException {
+		LOG.info("Getting site membership info for site: "+siteShortName);
+		final HttpResponse httpResp = HTTPUtils
+				.httpGet(String.format(SITE_MEMBERSHIP_URI, serverEndpoint, siteShortName, authTicket));
+		final StatusLine status = httpResp.getStatusLine();
+		final int statusCode = status.getStatusCode();
+		final String statusMsg = status.getReasonPhrase();
+		LOG.info("Status: "+statusCode +" | "+ statusMsg);
+		String memberShipInfo = JSONUtils.EMPTY_JSONARRAY;
+		if (statusCode == HTTPUtils.HTTP_CODE_200) {
+			final String resonseStr = IOUtils.toString(httpResp.getEntity().getContent(),
+					StandardCharsets.UTF_8);
+			final JSONArray siteMembershipArray = new JSONArray(resonseStr);
+			final UserReportService userRpServ = new UserReportServiceImpl(serverEndpoint);
+			for (Object eachMembershipJson : siteMembershipArray) {
+				final JSONObject membershipJson = (JSONObject) eachMembershipJson;
+				///// Remove duplicate props as they are populated through person info already [Start] /////
+				membershipJson.remove(AlfScriptConstants.FIRST_NAME); 
+				membershipJson.remove(AlfScriptConstants.LAST_NAME);
+				membershipJson.remove(AlfScriptConstants.FULL_NAME);
+				///// Remove duplicate props as they are populated through person info already [End] /////
+				final JSONObject authority = membershipJson.getJSONObject(AlfScriptConstants.AUTHORITY);
+				final String userName = authority.getString(AlfScriptConstants.USERNAME);
+				final JSONObject person = new JSONObject(userRpServ.getPersonAsJson(userName, authTicket));
+				person.put(AlfScriptConstants.FULL_NAME, person.getString(AlfScriptConstants.FIRST_NAME)
+						+ AlfScriptConstants.BLANK + person.getString(AlfScriptConstants.LAST_NAME));
+				authority.put(AlfScriptConstants.PERSON_INFO, person);
+			}
+			memberShipInfo = siteMembershipArray.toString();
+		} else {
+			throw new AlfScriptException(statusMsg);
+		}
+		return memberShipInfo;
 	}
 }

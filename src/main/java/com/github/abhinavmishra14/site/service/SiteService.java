@@ -102,7 +102,6 @@ public interface SiteService {
 			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
 	
-	
 	/**
 	 * Gets the all sites as string.
 	 *
@@ -117,4 +116,18 @@ public interface SiteService {
 	String getAllSitesAsString(final String authTicket, final String userName)
 			throws URISyntaxException, 
 			ClientProtocolException, AlfScriptException, IOException;
+	
+	/**
+	 * Gets the site membership person info.
+	 *
+	 * @param siteShortName the site short name
+	 * @param authTicket the auth ticket
+	 * @return the site membership info
+	 * @throws ClientProtocolException the client protocol exception
+	 * @throws AlfScriptException the alf script exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
+	 */
+	String getSiteMembershipPersonInfo(final String siteShortName, final String authTicket)
+			throws ClientProtocolException, AlfScriptException, IOException, URISyntaxException;
 }

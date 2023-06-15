@@ -73,6 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws AlfScriptException the alf script exception
 	 */
+	@Override
 	public String getAuthTicket(final String userName, final String password)
 			throws ClientProtocolException, JSONException, IOException, AlfScriptException {
 		LOG.info("Getting auth ticket for user: "+userName);

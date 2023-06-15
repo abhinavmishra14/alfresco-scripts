@@ -23,6 +23,7 @@ package com.github.abhinavmishra14.alfscript.utils;
  */
 public final class AlfScriptConstants {
 	
+	public static final String BLANK = " ";
 	public static final String DEFAULT_USER = "admin";
 	public static final String DEFAULT_PASSWORD = "admin";
 	public static final String DEFAULT_HOST = "http://127.0.0.1:8080";
@@ -98,6 +99,13 @@ public final class AlfScriptConstants {
 	public static final String PAGINATION = "pagination";
 	public static final String PROPS = "properties";
 	public static final String ASPECTS = "aspectNames";
+	
+	public static final String FIRST_NAME = "firstName";
+	public static final String LAST_NAME = "lastName";
+	public static final String FULL_NAME = "fullName";
+	public static final String AUTHORITY = "authority";
+	public static final String USERNAME = "userName";
+	public static final String PERSON_INFO = "personInfo";
 	
 	/**
 	 * The Constructor.

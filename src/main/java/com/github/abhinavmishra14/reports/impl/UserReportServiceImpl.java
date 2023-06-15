@@ -81,6 +81,7 @@ public class UserReportServiceImpl implements UserReportService {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public Person getPerson(final String userName, final String authTicket)
 			throws URISyntaxException, ClientProtocolException, IOException {
 		LOG.info("Getting user profile for user: "+userName);
@@ -118,6 +119,7 @@ public class UserReportServiceImpl implements UserReportService {
 	 * @throws IllegalStateException the illegal state exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	@Override
 	public Users getAllUsers(final String authTicket) throws URISyntaxException, IllegalStateException, IOException {
 		LOG.info("Getting all users..");
 		final URIBuilder uriBuilder = new URIBuilder(serverEndpoint+PEOPLE_URI);
@@ -155,6 +157,7 @@ public class UserReportServiceImpl implements UserReportService {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	@Override
 	public String getPersonAsJson(final String userName, final String authTicket)
 			throws URISyntaxException, ClientProtocolException, IOException {
 		String personJson = JSONUtils.EMPTY_JSONOBJECT;
@@ -184,6 +187,7 @@ public class UserReportServiceImpl implements UserReportService {
 	 * @throws IllegalStateException the illegal state exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	@Override
 	public String getAllUsersAsJson(final String authTicket)
 			throws URISyntaxException, IllegalStateException, IOException {
 		final Users users = getAllUsers(authTicket);

@@ -132,7 +132,7 @@ public class SearchAndGenerateMetadataReport {
 				final String nodeId = entry.getString(AlfScriptConstants.ID_NODE);
 				metadataArray.put(sndServ.getMetadata(nodeId, alfTicket));
 			}
-			final String downloadFilePath = AlfScriptUtils.getFileName("MetadataReport.json", downloadLocation);
+			final String downloadFilePath = AlfScriptUtils.getFileName("metadataReport.json", downloadLocation);
 			LOG.info("DownloadMetadataReportFilePath: "+downloadFilePath);
 			JSONUtils.convertFromJsonObjectToFile(metadataArray.toList(), downloadFilePath);
 			try(final FileWriter fwriter = new FileWriter(downloadFilePath)) {
@@ -140,7 +140,7 @@ public class SearchAndGenerateMetadataReport {
 			}
 		} else {
 			throw new IllegalArgumentException(
-					"Please check if you have provided the parameters required for the SNDContentAndMetadataTest. \n SNDContentAndMetadataTest invocation command: java com.github.abhinavmishra14.download.SNDContentAndMetadataTest <host> <user> <password> <downloadLocation> <searchQuery>");
+					"Please check if you have provided the parameters required for the SearchAndGenerateMetadataReport. \n SearchAndGenerateMetadataReport invocation command: java com.github.abhinavmishra14.reports.test.SearchAndGenerateMetadataReport <host> <user> <password> <downloadLocation> <searchQuery>");
 		}
 	}
 }

@@ -79,6 +79,7 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public List<String> getArchievedNodesAfterDays(final String authTicket,
 			final int batchSize, final int olderThanDays)
 			throws ClientProtocolException, URISyntaxException, IOException {
@@ -114,6 +115,7 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @throws URISyntaxException the URI syntax exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public List<String> getArchievedNodes(final String authTicket,
 			final int batchSize) throws ClientProtocolException,
 			URISyntaxException, IOException {
@@ -142,6 +144,7 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException the IO exception
 	 */
+	@Override
 	public JSONObject getArchiveSpaceStoreData(final String authTicket, final int batchSize)
 			throws URISyntaxException, ClientProtocolException, IOException {
 		LOG.info("Getting archived data from archive space store @ batchSize: "+batchSize);
@@ -177,6 +180,7 @@ public class ArchiveStoreServiceImpl implements ArchiveStoreService {
 	 * @throws ClientProtocolException the client protocol exception
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
+	@Override
 	public void deleteArchivedNode(final String archivedNode,
 			final String authTicket) throws URISyntaxException,
 			ClientProtocolException, IOException {

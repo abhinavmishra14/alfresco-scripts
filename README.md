@@ -207,3 +207,20 @@ These are commonly used scripts which can be executed from java command line. Th
    
    - SKIP_COUNT -> Number of items to skip from search. e.g.: 0. Defaults to 0.
    
+   
+#  Generate Site User's Membership Report
+
+ ```java
+ java -cp alfresco-scripts-jar-with-dependencies.jar com.github.abhinavmishra14.site.service.test.GenerateSiteUsersMembershipReport [HOST] [USER] [PASSWORD] [SITE_SHORT_NAME]
+ ```
+ 
+  #### Generate Site User's Membership Report parameter information:
+
+   - HOST -> Is the alfresco host base web url e.g.: http://127.0.0.1:8080
+   
+   - USER -> Is the user name for authentication. e.g.: admin
+   
+   - PASSWORD -> Is the password for authentication
+   
+   - SITE_SHORT_NAME -> Is the sites you want to get the membership details. e.g.: test-site
+  
