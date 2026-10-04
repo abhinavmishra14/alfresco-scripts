@@ -13,7 +13,7 @@
 		<skipTests>true</skipTests>
 		<jackson.databind.version>2.18.10</jackson.databind.version>
 		<jackson.annotations.version>2.13.4</jackson.annotations.version>
-		<jackson.core.version>2.18.6</jackson.core.version>
+		<jackson.core.version>2.18.11</jackson.core.version>
 		<jaxb.api.version>2.3.0</jaxb.api.version>
 		<mainClass>com.github.abhinavmishra14.trashcan.service.test.ClearTrashcan</mainClass>
 	</properties>
